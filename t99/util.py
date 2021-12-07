@@ -23,7 +23,6 @@ __all__ = [
     "utf8",
     "log_info",
     "log_debug",
-    "dashboard_link",
     "logfmt",
 ]
 
@@ -71,12 +70,6 @@ def _test_or_live_environment():
     if match is None:
         return
     return match.groups()[0]
-
-
-def dashboard_link(request_id):
-    return "https://dashboard.t99.com/{env}/logs/{reqid}".format(
-        env=_test_or_live_environment() or "test", reqid=request_id
-    )
 
 
 def logfmt(props):

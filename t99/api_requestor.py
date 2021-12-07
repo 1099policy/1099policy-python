@@ -278,13 +278,6 @@ class APIRequestor(object):
         util.log_info("T99 API response", path=abs_url, response_code=rcode)
         util.log_debug("API response body", body=rcontent)
 
-        if "Request-Id" in rheaders:
-            request_id = rheaders["Request-Id"]
-            util.log_debug(
-                "Dashboard link for request",
-                link=util.dashboard_link(request_id),
-            )
-
         return rcontent, rcode, rheaders, my_api_key
 
     def _should_handle_code_as_error(self, rcode):

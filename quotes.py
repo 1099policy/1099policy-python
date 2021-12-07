@@ -1,47 +1,39 @@
-from t99.api_resources.contractor import Contractor
+from t99.api_resources.quotes import Quotes
 
 # -----------------------------------------------------------------------------------*/
-# Creating a contractor
+# Creating a quote
 #-----------------------------------------------------------------------------------*/
 
-resource = Contractor.create(
-    first_name="CEMRE",
-    last_name="KARAKULAK",
-    email="cemre2@gmail.com",
-    phone="51231203",
-    address={
-        "line1": "IST",
-        "locality": "IST",
-        "region": "CA",
-        "postalcode": 1
-    }
+resource = Quotes.create(
+    job_id="jb_jsb9KEcTpc",
+    contractor_id="cn_yJBbMeq9QA",
+    coverage_type="general"
 )
 
 # -----------------------------------------------------------------------------------*/
-# Updating a contractor (replace xxx with an existing contractor id)
+# Updating a quote (replace xxx with an existing quote id)
 #-----------------------------------------------------------------------------------*/
 
-resource = Contractor.modify('cn_tS3wR3UQ5q',
-    email='cradexco@gmail.com',
-    first_name="x"
+resource = Quotes.modify('en_C9Z2DmfHSF',
+    name='Mechanic',
 )
 
 # -----------------------------------------------------------------------------------*/
-# Fetching the list of contractors
+# Fetching the list of quotes
 #-----------------------------------------------------------------------------------*/
 
-resource = Contractor.list()
+resource = Quotes.list()
 
 # -----------------------------------------------------------------------------------*/
-# Retrieving a contractor (replace xxx with an existing contractor id)
+# Retrieving a quote (replace xxx with an existing quote id)
 #-----------------------------------------------------------------------------------*/
 
-resource = Contractor.retrieve('cn_9TPKz6B9so')
+resource = Quotes.retrieve('en_C9Z2DmfHSF')
 
 # -----------------------------------------------------------------------------------*/
-# Delete a contractor (replace xxx with an existing contractor id)
+# Delete a quote (replace xxx with an existing quote id)
 #-----------------------------------------------------------------------------------*/
 
-resource = Contractor.delete('cn_tS3wR3UQ5q')
+resource = Quotes.delete('en_C9Z2DmfHSF')
 
 print(resource)

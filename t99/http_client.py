@@ -11,7 +11,6 @@ import json
 
 import t99
 from t99 import error, util, six
-from t99.request_metrics import RequestMetrics
 
 # - Requests is the preferred HTTP library
 # - Google App Engine has urlfetch
