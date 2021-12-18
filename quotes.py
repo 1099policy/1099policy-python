@@ -30,10 +30,4 @@ resource = Quotes.list()
 
 resource = Quotes.retrieve('en_C9Z2DmfHSF')
 
-# -----------------------------------------------------------------------------------*/
-# Delete a quote (replace xxx with an existing quote id)
-#-----------------------------------------------------------------------------------*/
-
-resource = Quotes.delete('en_C9Z2DmfHSF')
-
 print(resource)
