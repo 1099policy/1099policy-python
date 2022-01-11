@@ -2,6 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 # Configuration variables
 
+client_id = None
 api_base = "http://localhost:5000"
 api_key = 't9sk_test_1e9712b1-507d-40d9-9c2a-1ff7c2c7f840'
 api_version = None

@@ -1,49 +1,38 @@
-from t99.api_resources.entities import Entities
+import t99
 
 # -----------------------------------------------------------------------------------*/
-# Creating a entity
+# Creating a policy
 #-----------------------------------------------------------------------------------*/
 
-resource = Entities.create(
-    name="Brooklyn Bowl",
-    coverage_limit={
-        "aggregate_limit": "200000000",
-        "occurrence_limit": "100000000"
-    },
-    address={
-        "line1": "3639 18th St",
-        "line2": "",
-        "locality": "San Francisco",
-        "region": "CA",
-        "postalcode": "94110"
-    },
-    required_coverage=["general", "workers-comp"]
+resource = t99.Policies.create(
+    quote_id="qt_UPmEfS6nNK",
+    is_active=True
 )
 
 # -----------------------------------------------------------------------------------*/
-# Updating a entity (replace xxx with an existing entity id)
+# Updating a policy (replace xxx with an existing policy id)
 #-----------------------------------------------------------------------------------*/
 
-resource = Entities.modify('en_C9Z2DmfHSF',
-    name='California Roll',
+resource = t99.Policies.modify('en_C9Z2DmfHSF',
+    is_active=False,
 )
 
 # -----------------------------------------------------------------------------------*/
-# Fetching the list of entities
+# Fetching the list of policies
 #-----------------------------------------------------------------------------------*/
 
-resource = Entities.list()
+resource = t99.Policies.list()
 
 # -----------------------------------------------------------------------------------*/
-# Retrieving a entity (replace xxx with an existing entity id)
+# Retrieving a policy (replace xxx with an existing policy id)
 #-----------------------------------------------------------------------------------*/
 
-resource = Entities.retrieve('en_BUcNa8jMrq')
+resource = t99.Policies.retrieve('en_C9Z2DmfHSF')
 
 # -----------------------------------------------------------------------------------*/
-# Delete a entity (replace xxx with an existing entity id)
+# Delete a policy (replace xxx with an existing policy id)
 #-----------------------------------------------------------------------------------*/
 
-resource = Entities.delete('en_C9Z2DmfHSF')
+resource = t99.Policies.delete('en_C9Z2DmfHSF')
 
 print(resource)

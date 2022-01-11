@@ -1,44 +1,47 @@
-from t99.api_resources.jobs import Jobs
+import t99
 
 # -----------------------------------------------------------------------------------*/
-# Creating a job
+# Creating a contractor
 #-----------------------------------------------------------------------------------*/
 
-resource = Jobs.create(
-    name="Truck driver",
-    description="Requires a truck",
-    duration_hours=20,
-    wage=100,
-    years_experience=20,
-    wage_type="flatfee",
-    entity_id="en_FwZfQRe4aW",
-    category_code="jc_MTqpkbkp6G"
+resource = t99.Contractors.create(
+    first_name="CEMRE",
+    last_name="KARAKULAK",
+    email="cemre2@gmail.com",
+    phone="51231203",
+    address={
+        "line1": "IST",
+        "locality": "IST",
+        "region": "CA",
+        "postalcode": 1
+    }
 )
 
 # -----------------------------------------------------------------------------------*/
-# Updating a job (replace xxx with an existing job id)
+# Updating a contractor (replace xxx with an existing contractor id)
 #-----------------------------------------------------------------------------------*/
 
-resource = Jobs.modify('en_C9Z2DmfHSF',
-    name='Mechanic',
+resource = t99.Contractors.modify('cn_tS3wR3UQ5q',
+    email='cradexco@gmail.com',
+    first_name="x"
 )
 
 # -----------------------------------------------------------------------------------*/
-# Fetching the list of jobs
+# Fetching the list of contractors
 #-----------------------------------------------------------------------------------*/
 
-resource = Jobs.list()
+resource = t99.Contractors.list()
 
 # -----------------------------------------------------------------------------------*/
-# Retrieving a job (replace xxx with an existing job id)
+# Retrieving a contractor (replace xxx with an existing contractor id)
 #-----------------------------------------------------------------------------------*/
 
-resource = Jobs.retrieve('en_C9Z2DmfHSF')
+resource = t99.Contractors.retrieve('cn_9TPKz6B9so')
 
 # -----------------------------------------------------------------------------------*/
-# Delete a job (replace xxx with an existing job id)
+# Delete a contractor (replace xxx with an existing contractor id)
 #-----------------------------------------------------------------------------------*/
 
-resource = Jobs.delete('en_C9Z2DmfHSF')
+resource = t99.Contractors.delete('cn_tS3wR3UQ5q')
 
 print(resource)
