@@ -11,15 +11,15 @@ with open(os.path.join(here, "t99", "version.py"), encoding="utf-8") as f:
     exec(f.read(), version_contents)
 
 setup(
-    name="t99",
+    name="ten99policy",
     version=version_contents["VERSION"],
-    description="Python bindings for the t99 API",
+    description="Python bindings for the ten99policy API",
     long_description_content_type="text/x-rst",
     author="Ray Ventura",
-    author_email="support@t99.com",
+    author_email="support@1099policy.com",
     url="https://github.com/1099policy/ten99policy-python",
     license="MIT",
-    keywords="t99 api insurance",
+    keywords="ten99policy api insurance",
     packages=find_packages(exclude=["tests", "tests.*"]),
     zip_safe=False,
     install_requires=[
