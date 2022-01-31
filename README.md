@@ -1,7 +1,7 @@
 # 1099policy Python Library
 
-[![Build Status](https://travis-ci.org/1099policy/1099policy-python.svg?branch=master)](https://travis-ci.org/1099policy/1099policy-python)
-[![Coverage Status](https://coveralls.io/repos/github/1099policy/1099policy-python/badge.svg?branch=master)](https://coveralls.io/github/1099policy/1099policy-python?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/25dc3b9db072fdfe552e/maintainability)](https://codeclimate.com/github/1099policy/ten99policy-python/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/25dc3b9db072fdfe552e/test_coverage)](https://codeclimate.com/github/1099policy/ten99policy-python/test_coverage)
 
 The 1099policy Python library provides convenient access to the 1099policy API from
 applications written in the Python language. It includes a pre-defined set of
