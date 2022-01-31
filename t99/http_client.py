@@ -7,9 +7,7 @@ import email
 import time
 import random
 import threading
-import json
 
-import t99
 from t99 import error, util, six
 
 # - Requests is the preferred HTTP library
@@ -128,8 +126,6 @@ class HTTPClient(object):
         num_retries = 0
 
         while True:
-            request_start = _now_ms()
-
             try:
                 if is_streaming:
                     response = self.request_stream(
@@ -280,10 +276,7 @@ class RequestsClient(HTTPClient):
 
     def _request_internal(self, method, url, headers, post_data, is_streaming):
         kwargs = {}
-        if self._verify_ssl_certs:
-            kwargs["verify"] = t99.ca_bundle_path
-        else:
-            kwargs["verify"] = False
+        kwargs["verify"] = False
 
         if self._proxy:
             kwargs["proxies"] = self._proxy
@@ -425,7 +418,7 @@ class UrlFetchClient(HTTPClient):
                 headers=headers,
                 # Google App Engine doesn't let us specify our own cert bundle.
                 # However, that's ok because the CA bundle they use recognizes
-                # api.t99.com.
+                # api.1099policy.com.
                 validate_certificate=self._verify_ssl_certs,
                 deadline=self._deadline,
                 payload=post_data,
@@ -549,10 +542,7 @@ class PycurlClient(HTTPClient):
             pycurl.HTTPHEADER,
             ["%s: %s" % (k, v) for k, v in six.iteritems(dict(headers))],
         )
-        if self._verify_ssl_certs:
-            self._curl.setopt(pycurl.CAINFO, t99.ca_bundle_path)
-        else:
-            self._curl.setopt(pycurl.SSL_VERIFYHOST, False)
+        self._curl.setopt(pycurl.SSL_VERIFYHOST, False)
 
         try:
             self._curl.perform()

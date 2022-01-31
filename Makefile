@@ -14,9 +14,6 @@ $(VENV_NAME)/bin/activate: setup.py
 test: venv
 	@${VENV_NAME}/bin/tox -p auto $(TOX_ARGS)
 
-test-nomock: venv
-	@${VENV_NAME}/bin/tox -p auto -- --nomock $(TOX_ARGS)
-
 test-travis: venv
 	${VENV_NAME}/bin/python -m pip install -U tox-travis
 	@${VENV_NAME}/bin/tox -p auto $(TOX_ARGS)
@@ -36,4 +33,4 @@ lint: venv
 clean:
 	@rm -rf $(VENV_NAME) .coverage .coverage.* build/ dist/ htmlcov/
 
-.PHONY: venv test test-nomock test-travis coveralls fmt fmtcheck lint clean
+.PHONY: venv test test-travis coveralls fmt fmtcheck lint clean

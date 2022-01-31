@@ -4,7 +4,7 @@ from __future__ import absolute_import, division, print_function
 
 client_id = None
 api_base = "http://localhost:5000"
-api_key = 't9sk_test_1e9712b1-507d-40d9-9c2a-1ff7c2c7f840'
+api_key = 't9sk_test_c1fd07b3-edcb-4b76-9eb2-c384a1b8a32b'
 api_version = None
 verify_ssl_certs = False
 proxy = None

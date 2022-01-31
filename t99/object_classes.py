@@ -7,7 +7,6 @@ from t99 import api_resources
 OBJECT_CLASSES = {
     # data structures
     api_resources.ListObject.OBJECT_NAME: api_resources.ListObject,
-    
     api_resources.Contractors.OBJECT_NAME: api_resources.Contractors,
     api_resources.Entities.OBJECT_NAME: api_resources.Entities,
     api_resources.Jobs.OBJECT_NAME: api_resources.Jobs,

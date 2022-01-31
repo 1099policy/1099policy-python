@@ -1,6 +1,5 @@
 from __future__ import absolute_import, division, print_function
 
-from t99.util import merge_dicts
 from t99.t99_object import T99Object
 
 

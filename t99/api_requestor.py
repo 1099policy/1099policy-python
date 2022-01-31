@@ -12,7 +12,7 @@ from collections import OrderedDict
 import t99
 from t99 import error, http_client, version, util, six
 from t99.multipart_data_generator import MultipartDataGenerator
-from t99.six.moves.urllib.parse import urlencode, urlsplit, urlunsplit
+from t99.six.moves.urllib.parse import urlsplit, urlunsplit
 from t99.t99_response import T99Response, T99StreamResponse
 
 
@@ -147,7 +147,7 @@ class APIRequestor(object):
         return error.T99Error(
             error_data, rbody, rcode, resp, rheaders
         )
-    
+
     def request_headers(self, api_key, method):
         user_agent = "T99/v1 PythonBindings/%s" % (version.VERSION,)
 
@@ -215,11 +215,10 @@ class APIRequestor(object):
             )
 
         abs_url = "%s%s" % (self.api_base, url)
-    
+
         # Don't use strict form encoding by changing the square bracket control
         # characters back to their literals. This is fine by the server, and
         # makes these parameter strings easier to read.
-        
         # encoded_params = json.dumps(dict(_api_encode(params or {})))
         # encoded_params = encoded_params.replace("%5B", "[").replace("%5D", "]")
 

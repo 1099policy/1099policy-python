@@ -3,6 +3,7 @@ from t99.api_resources.abstract import DeletableAPIResource
 from t99.api_resources.abstract import ListableAPIResource
 from t99.api_resources.abstract import UpdateableAPIResource
 
+
 class Jobs(
     CreateableAPIResource,
     DeletableAPIResource,
