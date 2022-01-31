@@ -1,9 +1,9 @@
-# import t99
+import t99
 
 
 class TestCustomer(object):
     def test_is_listable(self):
-        # resources = t99.Contractors.list()
+        resources = t99.Contractors.list()
         assert isinstance([], list)
 
         # resources = t99.Customer.list()
