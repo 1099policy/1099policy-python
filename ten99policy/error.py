@@ -1,11 +1,11 @@
 from __future__ import absolute_import, division, print_function
 
-import t99
-from t99.six import python_2_unicode_compatible
+import ten99policy
+from ten99policy.six import python_2_unicode_compatible
 
 
 @python_2_unicode_compatible
-class T99Error(Exception):
+class TEN99POLICYError(Exception):
     def __init__(
         self,
         message=None,
@@ -15,7 +15,7 @@ class T99Error(Exception):
         headers=None,
         code=None,
     ):
-        super(T99Error, self).__init__(message)
+        super(TEN99POLICYError, self).__init__(message)
 
         if http_body and hasattr(http_body, "decode"):
             try:
@@ -23,7 +23,7 @@ class T99Error(Exception):
             except BaseException:
                 http_body = (
                     "<Could not decode body as utf-8. "
-                    "Please report to support@t99.com>"
+                    "Please report to support@ten99policy.com>"
                 )
 
         self._message = message
@@ -43,7 +43,7 @@ class T99Error(Exception):
             return msg
 
     # Returns the underlying `Exception` (base class) message, which is usually
-    # the raw message returned by T99's API. This was previously available
+    # the raw message returned by TEN99POLICY's API. This was previously available
     # in python2 via `error.message`. Unlike `str(error)`, it omits "Request
     # req_..." from the beginning of the string.
     @property
@@ -66,16 +66,16 @@ class T99Error(Exception):
         ):
             return None
 
-        return t99.api_resources.error_object.ErrorObject.construct_from(
-            self.json_body["error"], t99.api_key
+        return ten99policy.api_resources.error_object.ErrorObject.construct_from(
+            self.json_body["error"], ten99policy.api_key
         )
 
 
-class APIError(T99Error):
+class APIError(TEN99POLICYError):
     pass
 
 
-class APIConnectionError(T99Error):
+class APIConnectionError(TEN99POLICYError):
     def __init__(
         self,
         message,
@@ -92,7 +92,7 @@ class APIConnectionError(T99Error):
         self.should_retry = should_retry
 
 
-class T99ErrorWithParamCode(T99Error):
+class TEN99POLICYErrorWithParamCode(TEN99POLICYError):
     def __repr__(self):
         return (
             "%s(message=%r, param=%r, code=%r, http_status=%r, "
@@ -108,11 +108,11 @@ class T99ErrorWithParamCode(T99Error):
         )
 
 
-class IdempotencyError(T99Error):
+class IdempotencyError(TEN99POLICYError):
     pass
 
 
-class InvalidRequestError(T99ErrorWithParamCode):
+class InvalidRequestError(TEN99POLICYErrorWithParamCode):
     def __init__(
         self,
         message,
@@ -129,19 +129,14 @@ class InvalidRequestError(T99ErrorWithParamCode):
         self.param = param
 
 
-class AuthenticationError(T99Error):
+class AuthenticationError(TEN99POLICYError):
     pass
 
 
-class PermissionError(T99Error):
+class PermissionError(TEN99POLICYError):
     pass
 
 
-class RateLimitError(T99Error):
+class RateLimitError(TEN99POLICYError):
     pass
 
-
-class SignatureVerificationError(T99Error):
-    def __init__(self, message, sig_header, http_body=None):
-        super(SignatureVerificationError, self).__init__(message, http_body)
-        self.sig_header = sig_header

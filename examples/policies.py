@@ -1,10 +1,10 @@
-import t99
+import ten99policy
 
 # -----------------------------------------------------------------------------------*/
 # Creating a policy
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Policies.create(
+resource = ten99policy.Policies.create(
     quote_id="qt_UPmEfS6nNK",
     is_active=True
 )
@@ -13,7 +13,7 @@ resource = t99.Policies.create(
 # Updating a policy (replace xxx with an existing policy id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Policies.modify('en_C9Z2DmfHSF',
+resource = ten99policy.Policies.modify('en_C9Z2DmfHSF',
     is_active=False,
 )
 
@@ -21,18 +21,18 @@ resource = t99.Policies.modify('en_C9Z2DmfHSF',
 # Fetching the list of policies
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Policies.list()
+resource = ten99policy.Policies.list()
 
 # -----------------------------------------------------------------------------------*/
 # Retrieving a policy (replace xxx with an existing policy id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Policies.retrieve('en_C9Z2DmfHSF')
+resource = ten99policy.Policies.retrieve('en_C9Z2DmfHSF')
 
 # -----------------------------------------------------------------------------------*/
 # Delete a policy (replace xxx with an existing policy id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Policies.delete('en_C9Z2DmfHSF')
+resource = ten99policy.Policies.delete('en_C9Z2DmfHSF')
 
 print(resource)

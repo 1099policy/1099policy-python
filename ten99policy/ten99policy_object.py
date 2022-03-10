@@ -4,8 +4,8 @@ import datetime
 import json
 from copy import deepcopy
 
-import t99
-from t99 import api_requestor, util, six
+import ten99policy
+from ten99policy import api_requestor, util, six
 
 
 def _compute_diff(current, previous):
@@ -33,23 +33,21 @@ def _serialize_list(array, previous):
     return params
 
 
-class T99Object(dict):
+class TEN99POLICYObject(dict):
     class ReprJSONEncoder(json.JSONEncoder):
         def default(self, obj):
             if isinstance(obj, datetime.datetime):
                 return api_requestor._encode_datetime(obj)
-            return super(T99Object.ReprJSONEncoder, self).default(obj)
+            return super(TEN99POLICYObject.ReprJSONEncoder, self).default(obj)
 
     def __init__(
         self,
         id=None,
         api_key=None,
-        t99_version=None,
-        t99_account=None,
         last_response=None,
         **params
     ):
-        super(T99Object, self).__init__()
+        super(TEN99POLICYObject, self).__init__()
 
         self._unsaved_values = set()
         self._transient_values = set()
@@ -59,8 +57,6 @@ class T99Object(dict):
         self._previous = None
 
         object.__setattr__(self, "api_key", api_key)
-        object.__setattr__(self, "t99_version", t99_version)
-        object.__setattr__(self, "t99_account", t99_account)
 
         if id:
             self["id"] = id
@@ -73,11 +69,11 @@ class T99Object(dict):
         for k in update_dict:
             self._unsaved_values.add(k)
 
-        return super(T99Object, self).update(update_dict)
+        return super(TEN99POLICYObject, self).update(update_dict)
 
     def __setattr__(self, k, v):
         if k[0] == "_" or k in self.__dict__:
-            return super(T99Object, self).__setattr__(k, v)
+            return super(TEN99POLICYObject, self).__setattr__(k, v)
 
         self[k] = v
         return None
@@ -93,7 +89,7 @@ class T99Object(dict):
 
     def __delattr__(self, k):
         if k[0] == "_" or k in self.__dict__:
-            return super(T99Object, self).__delattr__(k)
+            return super(TEN99POLICYObject, self).__delattr__(k)
         else:
             del self[k]
 
@@ -112,17 +108,17 @@ class T99Object(dict):
 
         self._unsaved_values.add(k)
 
-        super(T99Object, self).__setitem__(k, v)
+        super(TEN99POLICYObject, self).__setitem__(k, v)
 
     def __getitem__(self, k):
         try:
-            return super(T99Object, self).__getitem__(k)
+            return super(TEN99POLICYObject, self).__getitem__(k)
         except KeyError as err:
             if k in self._transient_values:
                 raise KeyError(
                     "%r.  HINT: The %r attribute was set in the past."
                     "It was then wiped when refreshing the object with "
-                    "the result returned by T99's API, probably as a "
+                    "the result returned by TEN99POLICY's API, probably as a "
                     "result of a save().  The attributes currently "
                     "available on this object are: %s"
                     % (k, k, ", ".join(list(self.keys())))
@@ -131,7 +127,7 @@ class T99Object(dict):
                 raise err
 
     def __delitem__(self, k):
-        super(T99Object, self).__delitem__(k)
+        super(TEN99POLICYObject, self).__delitem__(k)
 
         # Allows for unpickling in Python 3.x
         if hasattr(self, "_unsaved_values") and k in self._unsaved_values:
@@ -152,8 +148,6 @@ class T99Object(dict):
             (  # args
                 self.get("id", None),
                 self.api_key,
-                self.t99_version,
-                self.t99_account,
             ),
             dict(self),  # state
         )
@@ -164,22 +158,16 @@ class T99Object(dict):
         cls,
         values,
         key,
-        t99_version=None,
-        t99_account=None,
         last_response=None,
     ):
         instance = cls(
             values.get("id"),
             api_key=key,
-            t99_version=t99_version,
-            t99_account=t99_account,
             last_response=last_response,
         )
         instance.refresh_from(
             values,
             api_key=key,
-            t99_version=t99_version,
-            t99_account=t99_account,
             last_response=last_response,
         )
         return instance
@@ -189,17 +177,10 @@ class T99Object(dict):
         values,
         api_key=None,
         partial=False,
-        t99_version=None,
-        t99_account=None,
         last_response=None,
     ):
         self.api_key = api_key or getattr(values, "api_key", None)
-        self.t99_version = t99_version or getattr(
-            values, "t99_version", None
-        )
-        self.t99_account = t99_account or getattr(
-            values, "t99_account", None
-        )
+
         self._last_response = last_response or getattr(
             values, "_last_response", None
         )
@@ -218,10 +199,10 @@ class T99Object(dict):
         self._transient_values = self._transient_values - set(values)
 
         for k, v in six.iteritems(values):
-            super(T99Object, self).__setitem__(
+            super(TEN99POLICYObject, self).__setitem__(
                 k,
-                util.convert_to_t99_object(
-                    v, api_key, t99_version, t99_account
+                util.convert_to_ten99policy_object(
+                    v, api_key
                 ),
             )
 
@@ -237,27 +218,9 @@ class T99Object(dict):
         requestor = api_requestor.APIRequestor(
             key=self.api_key,
             api_base=self.api_base(),
-            api_version=self.t99_version,
-            account=self.t99_account,
         )
-        response, api_key = requestor.request(method, url, params, headers)
-
-        return util.convert_to_t99_object(
-            response, api_key, self.t99_version, self.t99_account
-        )
-
-    def request_stream(self, method, url, params=None, headers=None):
-        if params is None:
-            params = self._retrieve_params
-        requestor = api_requestor.APIRequestor(
-            key=self.api_key,
-            api_base=self.api_base(),
-            api_version=self.t99_version,
-            account=self.t99_account,
-        )
-        response, _ = requestor.request_stream(method, url, params, headers)
-
-        return response
+        
+        return requestor.request(method, url, params, headers)
 
     def __repr__(self):
         ident_parts = [type(self).__name__]
@@ -294,7 +257,7 @@ class T99Object(dict):
         def maybe_to_dict_recursive(value):
             if value is None:
                 return None
-            elif isinstance(value, T99Object):
+            elif isinstance(value, TEN99POLICYObject):
                 return value.to_dict_recursive()
             else:
                 return value
@@ -307,7 +270,7 @@ class T99Object(dict):
         }
 
     @property
-    def t99_id(self):
+    def ten99policy_id(self):
         return self.id
 
     def serialize(self, previous):
@@ -318,7 +281,7 @@ class T99Object(dict):
         for k, v in six.iteritems(self):
             if k == "id" or (isinstance(k, str) and k.startswith("_")):
                 continue
-            elif isinstance(v, t99.api_resources.abstract.APIResource):
+            elif isinstance(v, ten99policy.api_resources.abstract.APIResource):
                 continue
             elif hasattr(v, "serialize"):
                 child = v.serialize(previous.get(k, None))
@@ -337,11 +300,9 @@ class T99Object(dict):
     # if it was set to be set manually. Here we override the class' copy
     # arguments so that we can bypass these possible exceptions on __setitem__.
     def __copy__(self):
-        copied = T99Object(
+        copied = TEN99POLICYObject(
             self.get("id"),
             self.api_key,
-            t99_version=self.t99_version,
-            t99_account=self.t99_account,
         )
 
         copied._retrieve_params = self._retrieve_params
@@ -349,7 +310,7 @@ class T99Object(dict):
         for k, v in six.iteritems(self):
             # Call parent's __setitem__ to avoid checks that we've added in the
             # overridden version that can throw exceptions.
-            super(T99Object, copied).__setitem__(k, v)
+            super(TEN99POLICYObject, copied).__setitem__(k, v)
 
         return copied
 
@@ -365,6 +326,6 @@ class T99Object(dict):
         for k, v in six.iteritems(self):
             # Call parent's __setitem__ to avoid checks that we've added in the
             # overridden version that can throw exceptions.
-            super(T99Object, copied).__setitem__(k, deepcopy(v, memo))
+            super(TEN99POLICYObject, copied).__setitem__(k, deepcopy(v, memo))
 
         return copied

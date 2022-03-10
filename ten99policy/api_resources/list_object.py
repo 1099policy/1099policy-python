@@ -1,34 +1,31 @@
 from __future__ import absolute_import, division, print_function
+from pickle import NONE
 
-from t99 import api_requestor, six, util
-from t99.t99_object import T99Object
+from ten99policy import api_requestor, six, util
+from ten99policy.ten99policy_object import TEN99POLICYObject
 
-from t99.six.moves.urllib.parse import quote_plus
+from ten99policy.six.moves.urllib.parse import quote_plus
 
 
-class ListObject(T99Object):
+class ListObject(TEN99POLICYObject):
     OBJECT_NAME = "list"
 
     def list(
-        self, api_key=None, t99_version=None, t99_account=None, **params
+        self, api_key=None, **params
     ):
-        t99_object = self._request(
+        ten99policy_object = self._request(
             "get",
             self.get("url"),
             api_key=api_key,
-            t99_version=t99_version,
-            t99_account=t99_account,
             **params
         )
-        t99_object._retrieve_params = params
-        return t99_object
+        ten99policy_object._retrieve_params = params
+        return ten99policy_object
 
     def create(
         self,
         api_key=None,
         idempotency_key=None,
-        t99_version=None,
-        t99_account=None,
         **params
     ):
         return self._request(
@@ -36,8 +33,6 @@ class ListObject(T99Object):
             self.get("url"),
             api_key=api_key,
             idempotency_key=idempotency_key,
-            t99_version=t99_version,
-            t99_account=t99_account,
             **params
         )
 
@@ -45,8 +40,6 @@ class ListObject(T99Object):
         self,
         id,
         api_key=None,
-        t99_version=None,
-        t99_account=None,
         **params
     ):
         url = "%s/%s" % (self.get("url"), quote_plus(util.utf8(id)))
@@ -54,8 +47,6 @@ class ListObject(T99Object):
             "get",
             url,
             api_key=api_key,
-            t99_version=t99_version,
-            t99_account=t99_account,
             **params
         )
 
@@ -65,23 +56,16 @@ class ListObject(T99Object):
         url_,
         api_key=None,
         idempotency_key=None,
-        t99_version=None,
-        t99_account=None,
         **params
     ):
         api_key = api_key or self.api_key
-        t99_version = t99_version or self.t99_version
-        t99_account = t99_account or self.t99_account
 
         requestor = api_requestor.APIRequestor(
-            api_key, api_version=t99_version, account=t99_account
+            api_key
         )
         headers = util.populate_headers(idempotency_key)
-        response, api_key = requestor.request(method_, url_, params, headers)
-        t99_object = util.convert_to_t99_object(
-            response, api_key, t99_version, t99_account
-        )
-        return t99_object
+        
+        return requestor.request(method_, url_, params, headers)
 
     def __getitem__(self, k):
         if isinstance(k, six.string_types):
@@ -124,13 +108,11 @@ class ListObject(T99Object):
 
     @classmethod
     def empty_list(
-        cls, api_key=None, t99_version=None, t99_account=None
+        cls, api_key=NONE
     ):
         return cls.construct_from(
             {"data": []},
             key=api_key,
-            t99_version=t99_version,
-            t99_account=t99_account,
             last_response=None,
         )
 
@@ -139,13 +121,11 @@ class ListObject(T99Object):
         return not self.data
 
     def next_page(
-        self, api_key=None, t99_version=None, t99_account=None, **params
+        self, api_key=None, **params
     ):
         if not self.has_more:
             return self.empty_list(
                 api_key=api_key,
-                t99_version=t99_version,
-                t99_account=t99_account,
             )
 
         last_id = self.data[-1].id
@@ -156,19 +136,15 @@ class ListObject(T99Object):
 
         return self.list(
             api_key=api_key,
-            t99_version=t99_version,
-            t99_account=t99_account,
             **params_with_filters
         )
 
     def previous_page(
-        self, api_key=None, t99_version=None, t99_account=None, **params
+        self, api_key=None, **params
     ):
         if not self.has_more:
             return self.empty_list(
                 api_key=api_key,
-                t99_version=t99_version,
-                t99_account=t99_account,
             )
 
         first_id = self.data[0].id
@@ -179,7 +155,5 @@ class ListObject(T99Object):
 
         return self.list(
             api_key=api_key,
-            t99_version=t99_version,
-            t99_account=t99_account,
             **params_with_filters
         )

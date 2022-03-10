@@ -1,6 +1,6 @@
 from __future__ import absolute_import, division, print_function
 
-from t99.api_resources.abstract.api_resource import APIResource
+from ten99policy.api_resources.abstract.api_resource import APIResource
 
 
 class SingletonAPIResource(APIResource):

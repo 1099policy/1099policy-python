@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
-from t99 import api_requestor, util
-from t99.six.moves.urllib.parse import quote_plus
+from ten99policy import api_requestor, util
+from ten99policy.six.moves.urllib.parse import quote_plus
 
 
 def nested_resource_class_methods(
@@ -34,18 +34,14 @@ def nested_resource_class_methods(
             url,
             api_key=None,
             idempotency_key=None,
-            t99_version=None,
-            t99_account=None,
             **params
         ):
             requestor = api_requestor.APIRequestor(
-                api_key, api_version=t99_version, account=t99_account
+                api_key
             )
             headers = util.populate_headers(idempotency_key)
-            response, api_key = requestor.request(method, url, params, headers)
-            return util.convert_to_t99_object(
-                response, api_key, t99_version, t99_account
-            )
+            response = requestor.request(method, url, params, headers)
+            return response
 
         resource_request_method = "%ss_request" % resource
         setattr(
