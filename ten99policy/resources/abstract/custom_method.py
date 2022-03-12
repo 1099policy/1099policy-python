@@ -1,10 +1,10 @@
 from __future__ import absolute_import, division, print_function
 
-from t99 import util
-from t99.six.moves.urllib.parse import quote_plus
+from ten99policy import util
+from ten99policy.six.moves.urllib.parse import quote_plus
 
 
-def custom_method(name, http_verb, http_path=None, is_streaming=False):
+def custom_method(name, http_verb, http_path=None):
     if http_verb not in ["get", "post", "put", "delete"]:
         raise ValueError(
             "Invalid http_verb: %s. Must be one of 'get', 'post' or 'delete'"
@@ -22,18 +22,8 @@ def custom_method(name, http_verb, http_path=None, is_streaming=False):
             )
             return cls._static_request(http_verb, url, **params)
 
-        def custom_method_request_stream(cls, sid, **params):
-            url = "%s/%s/%s" % (
-                cls.class_url(),
-                quote_plus(util.utf8(sid)),
-                http_path,
-            )
-            return cls._static_request_stream(http_verb, url, **params)
 
-        if is_streaming:
-            class_method_impl = classmethod(custom_method_request_stream)
-        else:
-            class_method_impl = classmethod(custom_method_request)
+        class_method_impl = classmethod(custom_method_request)
 
         existing_method = getattr(cls, name, None)
         if existing_method is None:

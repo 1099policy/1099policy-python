@@ -8,14 +8,14 @@ import time
 import random
 import threading
 
-from t99 import error, util, six
+from ten99policy import error, util, six
 
 # - Requests is the preferred HTTP library
 # - Google App Engine has urlfetch
 # - Use Pycurl if it's there (at least it verifies SSL certs)
 # - Fall back to urllib2 with a warning if needed
 try:
-    from t99.six.moves import urllib
+    from ten99policy.six.moves import urllib
 except ImportError:
     # Try to load in urllib2, but don't sweat it if it's not available.
     pass
@@ -40,12 +40,12 @@ else:
     else:
         if (major, minor, patch) < (0, 8, 8):
             sys.stderr.write(
-                "Warning: the T99 library requires that your Python "
+                "Warning: the TEN99POLICY library requires that your Python "
                 '"requests" library be newer than version 0.8.8, but your '
-                '"requests" library is version %s. T99 will fall back to '
+                '"requests" library is version %s. TEN99POLICY will fall back to '
                 "an alternate HTTP library so everything should work. We "
                 'recommend upgrading your "requests" library. If you have any '
-                "questions, please contact support@t99.com. (HINT: running "
+                "questions, please contact support@ten99policy.com. (HINT: running "
                 '"pip install -U requests" should upgrade your requests '
                 "library to the latest version.)" % (version,)
             )
@@ -57,7 +57,7 @@ except ImportError:
     urlfetch = None
 
 # proxy support for the pycurl client
-from t99.six.moves.urllib.parse import urlparse
+from ten99policy.six.moves.urllib.parse import urlparse
 
 
 def _now_ms():
@@ -74,7 +74,7 @@ def new_default_http_client(*args, **kwargs):
     else:
         impl = Urllib2Client
         warnings.warn(
-            "Warning: the T99 library is falling back to urllib2/urllib "
+            "Warning: the TEN99POLICY library is falling back to urllib2/urllib "
             "because neither requests nor pycurl are installed. "
             "urllib2's SSL implementation doesn't verify server "
             "certificates. For improved security, we suggest installing "
@@ -110,29 +110,17 @@ class HTTPClient(object):
 
     def request_with_retries(self, method, url, headers, post_data=None):
         return self._request_with_retries_internal(
-            method, url, headers, post_data, is_streaming=False
-        )
-
-    def request_stream_with_retries(
-        self, method, url, headers, post_data=None
-    ):
-        return self._request_with_retries_internal(
-            method, url, headers, post_data, is_streaming=True
+            method, url, headers, post_data
         )
 
     def _request_with_retries_internal(
-        self, method, url, headers, post_data, is_streaming
+        self, method, url, headers, post_data
     ):
         num_retries = 0
 
         while True:
             try:
-                if is_streaming:
-                    response = self.request_stream(
-                        method, url, headers, post_data
-                    )
-                else:
-                    response = self.request(method, url, headers, post_data)
+                response = self.request(method, url, headers, post_data)
                 connection_error = None
             except error.APIConnectionError as e:
                 connection_error = e
@@ -165,10 +153,6 @@ class HTTPClient(object):
             "HTTPClient subclasses must implement `request`"
         )
 
-    def request_stream(self, method, url, headers, post_data=None):
-        raise NotImplementedError(
-            "HTTPClient subclasses must implement `request_stream`"
-        )
 
     def _should_retry(self, response, api_connection_error, num_retries):
         if num_retries >= self._max_network_retries():
@@ -187,10 +171,10 @@ class HTTPClient(object):
         # or advise us to retry (eg; in cases of lock timeouts); we defer to that.
         #
         # Note that we expect the headers object to be a CaseInsensitiveDict, as is the case with the requests library.
-        if rheaders is not None and "t99-should-retry" in rheaders:
-            if rheaders["t99-should-retry"] == "false":
+        if rheaders is not None and "ten99policy-should-retry" in rheaders:
+            if rheaders["ten99policy-should-retry"] == "false":
                 return False
-            if rheaders["t99-should-retry"] == "true":
+            if rheaders["ten99policy-should-retry"] == "true":
                 return True
 
         # Retry on conflict errors.
@@ -199,7 +183,7 @@ class HTTPClient(object):
 
         # Retry on 500, 503, and other internal errors.
         #
-        # Note that we expect the t99-should-retry header to be false
+        # Note that we expect the ten99policy-should-retry header to be false
         # in most cases when a 500 is returned, since our idempotency framework
         # would typically replay it anyway.
         if status_code >= 500:
@@ -208,7 +192,7 @@ class HTTPClient(object):
         return False
 
     def _max_network_retries(self):
-        from t99 import max_network_retries
+        from ten99policy import max_network_retries
 
         # Configured retries, isolated here for tests
         return max_network_retries
@@ -266,23 +250,16 @@ class RequestsClient(HTTPClient):
 
     def request(self, method, url, headers, post_data=None):
         return self._request_internal(
-            method, url, headers, post_data, is_streaming=False
+            method, url, headers, post_data
         )
 
-    def request_stream(self, method, url, headers, post_data=None):
-        return self._request_internal(
-            method, url, headers, post_data, is_streaming=True
-        )
 
-    def _request_internal(self, method, url, headers, post_data, is_streaming):
+    def _request_internal(self, method, url, headers, post_data):
         kwargs = {}
         kwargs["verify"] = False
 
         if self._proxy:
             kwargs["proxies"] = self._proxy
-
-        if is_streaming:
-            kwargs["stream"] = True
 
         if getattr(self._thread_local, "session", None) is None:
             self._thread_local.session = self._session or requests.Session()
@@ -300,20 +277,18 @@ class RequestsClient(HTTPClient):
             except TypeError as e:
                 raise TypeError(
                     "Warning: It looks like your installed version of the "
-                    '"requests" library is not compatible with T99\'s '
+                    '"requests" library is not compatible with TEN99POLICY\'s '
                     "usage thereof. (HINT: The most likely cause is that "
                     'your "requests" library is out of date. You can fix '
                     'that by running "pip install -U requests".) The '
                     "underlying error was: %s" % (e,)
                 )
 
-            if is_streaming:
-                content = result.raw
-            else:
-                # This causes the content to actually be read, which could cause
-                # e.g. a socket timeout. TODO: The other fetch methods probably
-                # are susceptible to the same and should be updated.
-                content = result.content
+    
+            # This causes the content to actually be read, which could cause
+            # e.g. a socket timeout. TODO: The other fetch methods probably
+            # are susceptible to the same and should be updated.
+            content = result.content
 
             status_code = result.status_code
         except Exception as e:
@@ -328,10 +303,10 @@ class RequestsClient(HTTPClient):
         # but we don't want to retry
         if isinstance(e, requests.exceptions.SSLError):
             msg = (
-                "Could not verify T99's SSL certificate.  Please make "
+                "Could not verify TEN99POLICY's SSL certificate.  Please make "
                 "sure that your network is not intercepting certificates.  "
                 "If this problem persists, let us know at "
-                "support@t99.com."
+                "support@ten99policy.com."
             )
             err = "%s: %s" % (type(e).__name__, str(e))
             should_retry = False
@@ -341,27 +316,27 @@ class RequestsClient(HTTPClient):
             (requests.exceptions.Timeout, requests.exceptions.ConnectionError),
         ):
             msg = (
-                "Unexpected error communicating with T99.  "
+                "Unexpected error communicating with TEN99POLICY.  "
                 "If this problem persists, let us know at "
-                "support@t99.com."
+                "support@ten99policy.com."
             )
             err = "%s: %s" % (type(e).__name__, str(e))
             should_retry = True
         # Catch remaining request exceptions
         elif isinstance(e, requests.exceptions.RequestException):
             msg = (
-                "Unexpected error communicating with T99.  "
+                "Unexpected error communicating with TEN99POLICY.  "
                 "If this problem persists, let us know at "
-                "support@t99.com."
+                "support@ten99policy.com."
             )
             err = "%s: %s" % (type(e).__name__, str(e))
             should_retry = False
         else:
             msg = (
-                "Unexpected error communicating with T99. "
+                "Unexpected error communicating with TEN99POLICY. "
                 "It looks like there's probably a configuration "
                 "issue locally.  If this problem persists, let us "
-                "know at support@t99.com."
+                "know at support@ten99policy.com."
             )
             err = "A %s was raised" % (type(e).__name__,)
             if str(e):
@@ -391,26 +366,21 @@ class UrlFetchClient(HTTPClient):
         if proxy:
             raise ValueError(
                 "No proxy support in urlfetch library. "
-                "Set t99.default_http_client to either RequestsClient, "
+                "Set ten99policy.default_http_client to either RequestsClient, "
                 "PycurlClient, or Urllib2Client instance to use a proxy."
             )
 
         self._verify_ssl_certs = verify_ssl_certs
         # GAE requests time out after 60 seconds, so make sure to default
-        # to 55 seconds to allow for a slow T99
+        # to 55 seconds to allow for a slow TEN99POLICY
         self._deadline = deadline
 
     def request(self, method, url, headers, post_data=None):
         return self._request_internal(
-            method, url, headers, post_data, is_streaming=False
+            method, url, headers, post_data
         )
 
-    def request_stream(self, method, url, headers, post_data=None):
-        return self._request_internal(
-            method, url, headers, post_data, is_streaming=True
-        )
-
-    def _request_internal(self, method, url, headers, post_data, is_streaming):
+    def _request_internal(self, method, url, headers, post_data):
         try:
             result = urlfetch.fetch(
                 url=url,
@@ -426,33 +396,30 @@ class UrlFetchClient(HTTPClient):
         except urlfetch.Error as e:
             self._handle_request_error(e, url)
 
-        if is_streaming:
-            content = util.io.BytesIO(str.encode(result.content))
-        else:
-            content = result.content
+        content = result.content
 
         return content, result.status_code, result.headers
 
     def _handle_request_error(self, e, url):
         if isinstance(e, urlfetch.InvalidURLError):
             msg = (
-                "The T99 library attempted to fetch an "
+                "The TEN99POLICY library attempted to fetch an "
                 "invalid URL (%r). This is likely due to a bug "
-                "in the T99 Python bindings. Please let us know "
-                "at support@t99.com." % (url,)
+                "in the TEN99POLICY Python bindings. Please let us know "
+                "at support@ten99policy.com." % (url,)
             )
         elif isinstance(e, urlfetch.DownloadError):
-            msg = "There was a problem retrieving data from T99."
+            msg = "There was a problem retrieving data from TEN99POLICY."
         elif isinstance(e, urlfetch.ResponseTooLargeError):
             msg = (
                 "There was a problem receiving all of your data from "
-                "T99.  This is likely due to a bug in T99. "
-                "Please let us know at support@t99.com."
+                "TEN99POLICY.  This is likely due to a bug in TEN99POLICY. "
+                "Please let us know at support@ten99policy.com."
             )
         else:
             msg = (
-                "Unexpected error communicating with T99. If this "
-                "problem persists, let us know at support@t99.com."
+                "Unexpected error communicating with TEN99POLICY. If this "
+                "problem persists, let us know at support@ten99policy.com."
             )
 
         msg = textwrap.fill(msg) + "\n\n(Network error: " + str(e) + ")"
@@ -490,15 +457,11 @@ class PycurlClient(HTTPClient):
 
     def request(self, method, url, headers, post_data=None):
         return self._request_internal(
-            method, url, headers, post_data, is_streaming=False
+            method, url, headers, post_data
         )
 
-    def request_stream(self, method, url, headers, post_data=None):
-        return self._request_internal(
-            method, url, headers, post_data, is_streaming=True
-        )
 
-    def _request_internal(self, method, url, headers, post_data, is_streaming):
+    def _request_internal(self, method, url, headers, post_data):
         b = util.io.BytesIO()
         rheaders = util.io.BytesIO()
 
@@ -549,11 +512,7 @@ class PycurlClient(HTTPClient):
         except pycurl.error as e:
             self._handle_request_error(e)
 
-        if is_streaming:
-            b.seek(0)
-            rcontent = b
-        else:
-            rcontent = b.getvalue().decode("utf-8")
+        rcontent = b.getvalue().decode("utf-8")
 
         rcode = self._curl.getinfo(pycurl.RESPONSE_CODE)
         headers = self.parse_headers(rheaders.getvalue().decode("utf-8"))
@@ -567,25 +526,25 @@ class PycurlClient(HTTPClient):
             pycurl.E_OPERATION_TIMEOUTED,
         ]:
             msg = (
-                "Could not connect to T99.  Please check your "
+                "Could not connect to TEN99POLICY.  Please check your "
                 "internet connection and try again.  If this problem "
-                "persists, you should check T99's service status at "
-                "https://twitter.com/t99status, or let us know at "
-                "support@t99.com."
+                "persists, you should check TEN99POLICY's service status at "
+                "https://twitter.com/ten99policystatus, or let us know at "
+                "support@ten99policy.com."
             )
             should_retry = True
         elif e.args[0] in [pycurl.E_SSL_CACERT, pycurl.E_SSL_PEER_CERTIFICATE]:
             msg = (
-                "Could not verify T99's SSL certificate.  Please make "
+                "Could not verify TEN99POLICY's SSL certificate.  Please make "
                 "sure that your network is not intercepting certificates.  "
                 "If this problem persists, let us know at "
-                "support@t99.com."
+                "support@ten99policy.com."
             )
             should_retry = False
         else:
             msg = (
-                "Unexpected error communicating with T99. If this "
-                "problem persists, let us know at support@t99.com."
+                "Unexpected error communicating with TEN99POLICY. If this "
+                "problem persists, let us know at support@ten99policy.com."
             )
             should_retry = False
 
@@ -619,15 +578,10 @@ class Urllib2Client(HTTPClient):
 
     def request(self, method, url, headers, post_data=None):
         return self._request_internal(
-            method, url, headers, post_data, is_streaming=False
+            method, url, headers, post_data
         )
 
-    def request_stream(self, method, url, headers, post_data=None):
-        return self._request_internal(
-            method, url, headers, post_data, is_streaming=True
-        )
-
-    def _request_internal(self, method, url, headers, post_data, is_streaming):
+    def _request_internal(self, method, url, headers, post_data):
         if six.PY3 and isinstance(post_data, six.string_types):
             post_data = post_data.encode("utf-8")
 
@@ -645,10 +599,7 @@ class Urllib2Client(HTTPClient):
                 else urllib.request.urlopen(req)
             )
 
-            if is_streaming:
-                rcontent = response
-            else:
-                rcontent = response.read()
+            rcontent = response.read()
 
             rcode = response.code
             headers = dict(response.info())
@@ -663,8 +614,8 @@ class Urllib2Client(HTTPClient):
 
     def _handle_request_error(self, e):
         msg = (
-            "Unexpected error communicating with T99. "
-            "If this problem persists, let us know at support@t99.com."
+            "Unexpected error communicating with TEN99POLICY. "
+            "If this problem persists, let us know at support@ten99policy.com."
         )
         msg = textwrap.fill(msg) + "\n\n(Network error: " + str(e) + ")"
         raise error.APIConnectionError(msg)
