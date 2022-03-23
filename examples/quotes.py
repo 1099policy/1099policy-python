@@ -14,7 +14,7 @@ resource = t99.Quotes.create(
 # Updating a quote (replace xxx with an existing quote id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Quotes.modify('en_C9Z2DmfHSF',
+resource = t99.Quotes.modify('qt_C9Z2DmfHSF',
     name='Mechanic',
 )
 
@@ -28,6 +28,6 @@ resource = t99.Quotes.list()
 # Retrieving a quote (replace xxx with an existing quote id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Quotes.retrieve('en_C9Z2DmfHSF')
+resource = t99.Quotes.retrieve('qt_C9Z2DmfHSF')
 
 print(resource)
