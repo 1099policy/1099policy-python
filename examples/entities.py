@@ -1,7 +1,7 @@
 import t99
 
 # -----------------------------------------------------------------------------------*/
-# Creating a entity
+# Creating an entity
 #-----------------------------------------------------------------------------------*/
 
 resource = t99.Entities.create(
@@ -21,7 +21,7 @@ resource = t99.Entities.create(
 )
 
 # -----------------------------------------------------------------------------------*/
-# Updating a entity (replace xxx with an existing entity id)
+# Updating an entity (replace xxx with an existing entity id)
 #-----------------------------------------------------------------------------------*/
 
 resource = t99.Entities.modify('en_C9Z2DmfHSF',
@@ -35,15 +35,13 @@ resource = t99.Entities.modify('en_C9Z2DmfHSF',
 resource = t99.Entities.list()
 
 # -----------------------------------------------------------------------------------*/
-# Retrieving a entity (replace xxx with an existing entity id)
+# Retrieving an entity (replace xxx with an existing entity id)
 #-----------------------------------------------------------------------------------*/
 
 resource = t99.Entities.retrieve('en_BUcNa8jMrq')
 
 # -----------------------------------------------------------------------------------*/
-# Delete a entity (replace xxx with an existing entity id)
+# Delete an entity (replace xxx with an existing entity id)
 #-----------------------------------------------------------------------------------*/
 
 resource = t99.Entities.delete('en_C9Z2DmfHSF')
-
-print(resource)

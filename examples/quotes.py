@@ -29,5 +29,3 @@ resource = t99.Quotes.list()
 #-----------------------------------------------------------------------------------*/
 
 resource = t99.Quotes.retrieve('qt_C9Z2DmfHSF')
-
-print(resource)

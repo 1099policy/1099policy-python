@@ -11,3 +11,5 @@ from t99.api_resources.entities import Entities
 from t99.api_resources.jobs import Jobs
 from t99.api_resources.policies import Policies
 from t99.api_resources.quotes import Quotes
+from t99.api_resources.invoices import Invoices
+from t99.api_resources.insurance_application_sessions import InsuranceApplicationSessions

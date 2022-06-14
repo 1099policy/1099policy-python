@@ -1,42 +1,39 @@
 import t99
 
 # -----------------------------------------------------------------------------------*/
-# Creating a job
+# Creating an invoice
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Jobs.create(
-    name="Truck driver",
-    description="Requires a truck",
-    duration_hours=20,
-    wage=100,
-    years_experience=20,
-    wage_type="flatfee",
-    entity_id="en_FwZfQRe4aW",
-    category_code="jc_MTqpkbkp6G"
+resource = t99.Invoices.create(
+    contractor="cn_ti8eXviE4A",
+    job="jb_rajdrwMUKi",
+    gross_pay=1000,
+    paycycle_startdate="2022-04-25T22:23:13+00:00",
+    paycycle_enddate="2022-04-28T22:23:13+00:00"
+)
+
+# # -----------------------------------------------------------------------------------*/
+# Updating an invoice (replace xxx with an existing invoice id)
+#-----------------------------------------------------------------------------------*/
+
+resource = t99.Invoices.modify('in_m47rNFQ3PS',
+    gross_pay=1500,
 )
 
 # -----------------------------------------------------------------------------------*/
-# Updating a job (replace xxx with an existing job id)
+# Fetching the list of invoices
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Jobs.modify('jb_C9Z2DmfHSF',
-    name='Mechanic',
-)
+resource = t99.Invoices.list()
 
 # -----------------------------------------------------------------------------------*/
-# Fetching the list of jobs
+# Retrieving an invoice (replace xxx with an existing invoice id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Jobs.list()
+resource = t99.Invoices.retrieve('in_tcbma8oShU')
 
 # -----------------------------------------------------------------------------------*/
-# Retrieving a job (replace xxx with an existing job id)
+# Delete an invoice (replace xxx with an existing invoice id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Jobs.retrieve('jb_C9Z2DmfHSF')
-
-# -----------------------------------------------------------------------------------*/
-# Delete a job (replace xxx with an existing job id)
-#-----------------------------------------------------------------------------------*/
-
-resource = t99.Jobs.delete('jb_C9Z2DmfHSF')
+resource = t99.Invoices.delete('in_tcbma8oShU')

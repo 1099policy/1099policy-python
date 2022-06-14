@@ -5,15 +5,17 @@ import t99
 #-----------------------------------------------------------------------------------*/
 
 resource = t99.Contractors.create(
-    first_name="CEMRE",
-    last_name="KARAKULAK",
-    email="cemre2@gmail.com",
-    phone="51231203",
+    first_name="John",
+    last_name="Doe",
+    email="john@doe.com",
+    phone="415-111-1111",
+    tax_identification=123456,
     address={
-        "line1": "IST",
-        "locality": "IST",
+        "country": "USA",
+        "line1": "2211 Mission St",
+        "locality": "San Francisco",
         "region": "CA",
-        "postalcode": 1
+        "postalcode": "94110"
     }
 )
 
@@ -22,8 +24,8 @@ resource = t99.Contractors.create(
 #-----------------------------------------------------------------------------------*/
 
 resource = t99.Contractors.modify('cn_tS3wR3UQ5q',
-    email='cradexco@gmail.com',
-    first_name="x"
+    email='john.doe@gmail.com',
+    first_name="George"
 )
 
 # -----------------------------------------------------------------------------------*/
@@ -43,5 +45,3 @@ resource = t99.Contractors.retrieve('cn_9TPKz6B9so')
 #-----------------------------------------------------------------------------------*/
 
 resource = t99.Contractors.delete('cn_tS3wR3UQ5q')
-
-print(resource)

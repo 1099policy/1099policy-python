@@ -34,5 +34,3 @@ resource = t99.Policies.retrieve('en_C9Z2DmfHSF')
 #-----------------------------------------------------------------------------------*/
 
 resource = t99.Policies.delete('en_C9Z2DmfHSF')
-
-print(resource)
