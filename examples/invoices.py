@@ -1,10 +1,10 @@
-import t99
+import ten99policy
 
 # -----------------------------------------------------------------------------------*/
 # Creating an invoice
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Invoices.create(
+resource = ten99policy.Invoices.create(
     contractor="cn_ti8eXviE4A",
     job="jb_rajdrwMUKi",
     gross_pay=1000,
@@ -16,7 +16,7 @@ resource = t99.Invoices.create(
 # Updating an invoice (replace xxx with an existing invoice id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Invoices.modify('in_m47rNFQ3PS',
+resource = ten99policy.Invoices.modify('in_m47rNFQ3PS',
     gross_pay=1500,
 )
 
@@ -24,16 +24,16 @@ resource = t99.Invoices.modify('in_m47rNFQ3PS',
 # Fetching the list of invoices
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Invoices.list()
+resource = ten99policy.Invoices.list()
 
 # -----------------------------------------------------------------------------------*/
 # Retrieving an invoice (replace xxx with an existing invoice id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Invoices.retrieve('in_tcbma8oShU')
+resource = ten99policy.Invoices.retrieve('in_tcbma8oShU')
 
 # -----------------------------------------------------------------------------------*/
 # Delete an invoice (replace xxx with an existing invoice id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Invoices.delete('in_tcbma8oShU')
+resource = ten99policy.Invoices.delete('in_tcbma8oShU')

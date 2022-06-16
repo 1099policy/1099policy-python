@@ -1,10 +1,10 @@
-import t99
+import ten99policy
 
 # -----------------------------------------------------------------------------------*/
 # Creating an entity
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Entities.create(
+resource = ten99policy.Entities.create(
     name="Brooklyn Bowl",
     coverage_limit={
         "aggregate_limit": "200000000",
@@ -24,7 +24,7 @@ resource = t99.Entities.create(
 # Updating an entity (replace xxx with an existing entity id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Entities.modify('en_C9Z2DmfHSF',
+resource = ten99policy.Entities.modify('en_C9Z2DmfHSF',
     name='California Roll',
 )
 
@@ -32,16 +32,16 @@ resource = t99.Entities.modify('en_C9Z2DmfHSF',
 # Fetching the list of entities
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Entities.list()
+resource = ten99policy.Entities.list()
 
 # -----------------------------------------------------------------------------------*/
 # Retrieving an entity (replace xxx with an existing entity id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Entities.retrieve('en_BUcNa8jMrq')
+resource = ten99policy.Entities.retrieve('en_BUcNa8jMrq')
 
 # -----------------------------------------------------------------------------------*/
 # Delete an entity (replace xxx with an existing entity id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Entities.delete('en_C9Z2DmfHSF')
+resource = ten99policy.Entities.delete('en_C9Z2DmfHSF')

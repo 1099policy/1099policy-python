@@ -8,14 +8,14 @@ import sys
 import os
 import re
 
-import t99
-from t99 import six
-from t99.six.moves.urllib.parse import parse_qsl
+import ten99policy
+from ten99policy import six
+from ten99policy.six.moves.urllib.parse import parse_qsl
 
 
-T99_LOG = os.environ.get("T99_LOG")
+Ten99Policy_LOG = os.environ.get("Ten99Policy_LOG")
 
-logger = logging.getLogger("t99")
+logger = logging.getLogger("ten99policy")
 
 __all__ = [
     "io",
@@ -41,10 +41,10 @@ def is_appengine_dev():
 
 
 def _console_log_level():
-    if t99.log in ["debug", "info"]:
-        return t99.log
-    elif T99_LOG in ["debug", "info"]:
-        return T99_LOG
+    if ten99policy.log in ["debug", "info"]:
+        return ten99policy.log
+    elif Ten99Policy_LOG in ["debug", "info"]:
+        return Ten99Policy_LOG
     else:
         return None
 
@@ -64,9 +64,9 @@ def log_info(message, **params):
 
 
 def _test_or_live_environment():
-    if t99.api_key is None:
+    if ten99policy.api_key is None:
         return
-    match = re.match(r"sk_(live|test)_", t99.api_key)
+    match = re.match(r"sk_(live|test)_", ten99policy.api_key)
     if match is None:
         return
     return match.groups()[0]
@@ -125,65 +125,65 @@ else:
 
 def get_object_classes():
     # This is here to avoid a circular dependency
-    from t99.object_classes import OBJECT_CLASSES
+    from ten99policy.object_classes import OBJECT_CLASSES
 
     return OBJECT_CLASSES
 
 
-def convert_to_t99_object(
-    resp, api_key=None, t99_version=None, t99_account=None
+def convert_to_ten99policy_object(
+    resp, api_key=None, ten99policy_version=None, ten99policy_account=None
 ):
-    # If we get a T99Response, we'll want to return a
-    # T99Object with the last_response field filled out with
+    # If we get a Ten99PolicyResponse, we'll want to return a
+    # Ten99PolicyObject with the last_response field filled out with
     # the raw API response information
-    t99_response = None
+    ten99policy_response = None
 
-    if isinstance(resp, t99.t99_response.T99Response):
-        t99_response = resp
-        resp = t99_response.data
+    if isinstance(resp, ten99policy.ten99policy_response.Ten99PolicyResponse):
+        ten99policy_response = resp
+        resp = ten99policy_response.data
 
     if isinstance(resp, list):
         return [
-            convert_to_t99_object(
-                i, api_key, t99_version, t99_account
+            convert_to_ten99policy_object(
+                i, api_key, ten99policy_version, ten99policy_account
             )
             for i in resp
         ]
     elif isinstance(resp, dict) and not isinstance(
-        resp, t99.t99_object.T99Object
+        resp, ten99policy.ten99policy_object.Ten99PolicyObject
     ):
         resp = resp.copy()
         klass_name = resp.get("object")
         if isinstance(klass_name, six.string_types):
             klass = get_object_classes().get(
-                klass_name, t99.t99_object.T99Object
+                klass_name, ten99policy.ten99policy_object.Ten99PolicyObject
             )
         else:
-            klass = t99.t99_object.T99Object
+            klass = ten99policy.ten99policy_object.Ten99PolicyObject
 
         return klass.construct_from(
             resp,
             api_key,
-            t99_version=t99_version,
-            t99_account=t99_account,
-            last_response=t99_response,
+            ten99policy_version=ten99policy_version,
+            ten99policy_account=ten99policy_account,
+            last_response=ten99policy_response,
         )
     else:
         return resp
 
 
 def convert_to_dict(obj):
-    """Converts a T99Object back to a regular dict.
+    """Converts a Ten99PolicyObject back to a regular dict.
 
-    Nested T99Objects are also converted back to regular dicts.
+    Nested Ten99PolicyObjects are also converted back to regular dicts.
 
-    :param obj: The T99Object to convert.
+    :param obj: The Ten99PolicyObject to convert.
 
-    :returns: The T99Object as a dict.
+    :returns: The Ten99PolicyObject as a dict.
     """
     if isinstance(obj, list):
         return [convert_to_dict(i) for i in obj]
-    # This works by virtue of the fact that T99Objects _are_ dicts. The dict
+    # This works by virtue of the fact that Ten99PolicyObjects _are_ dicts. The dict
     # comprehension returns a regular dict and recursively applies the
     # conversion to each value.
     elif isinstance(obj, dict):

@@ -15,4 +15,4 @@ max_network_retries = 0
 log = 'debug'
 
 # API resources
-from t99.api_resources import *  # noqa
+from ten99policy.api_resources import *  # noqa

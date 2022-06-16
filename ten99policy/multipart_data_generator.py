@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, print_function
 import random
 import io
 
-import t99
+import ten99policy
 
 
 class MultipartDataGenerator(object):
@@ -15,9 +15,9 @@ class MultipartDataGenerator(object):
 
     def add_params(self, params):
         # Flatten parameters first
-        params = dict(t99.api_requestor._api_encode(params))
+        params = dict(ten99policy.api_requestor._api_encode(params))
 
-        for key, value in t99.six.iteritems(params):
+        for key, value in ten99policy.six.iteritems(params):
             if value is None:
                 continue
 
@@ -29,7 +29,7 @@ class MultipartDataGenerator(object):
                     # Convert the filename to string, just in case it's not
                     # already one. E.g. `tempfile.TemporaryFile` has a `name`
                     # attribute but it's an `int`.
-                    filename = t99.six.text_type(value.name)
+                    filename = ten99policy.six.text_type(value.name)
 
                 self._write('Content-Disposition: form-data; name="')
                 self._write(key)
@@ -61,9 +61,9 @@ class MultipartDataGenerator(object):
         return self.data.getvalue()
 
     def _write(self, value):
-        if isinstance(value, t99.six.binary_type):
+        if isinstance(value, ten99policy.six.binary_type):
             array = bytearray(value)
-        elif isinstance(value, t99.six.text_type):
+        elif isinstance(value, ten99policy.six.text_type):
             array = bytearray(value, encoding="utf-8")
         else:
             raise TypeError(

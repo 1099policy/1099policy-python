@@ -1,10 +1,10 @@
-import t99
+import ten99policy
 
 # -----------------------------------------------------------------------------------*/
 # Creating a contractor
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Contractors.create(
+resource = ten99policy.Contractors.create(
     first_name="John",
     last_name="Doe",
     email="john@doe.com",
@@ -23,7 +23,7 @@ resource = t99.Contractors.create(
 # Updating a contractor (replace xxx with an existing contractor id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Contractors.modify('cn_tS3wR3UQ5q',
+resource = ten99policy.Contractors.modify('cn_tS3wR3UQ5q',
     email='john.doe@gmail.com',
     first_name="George"
 )
@@ -32,16 +32,16 @@ resource = t99.Contractors.modify('cn_tS3wR3UQ5q',
 # Fetching the list of contractors
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Contractors.list()
+resource = ten99policy.Contractors.list()
 
 # -----------------------------------------------------------------------------------*/
 # Retrieving a contractor (replace xxx with an existing contractor id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Contractors.retrieve('cn_9TPKz6B9so')
+resource = ten99policy.Contractors.retrieve('cn_9TPKz6B9so')
 
 # -----------------------------------------------------------------------------------*/
 # Delete a contractor (replace xxx with an existing contractor id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Contractors.delete('cn_tS3wR3UQ5q')
+resource = ten99policy.Contractors.delete('cn_tS3wR3UQ5q')

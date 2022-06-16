@@ -1,10 +1,10 @@
-import t99
+import ten99policy
 
 # -----------------------------------------------------------------------------------*/
 # Creating a job
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Jobs.create(
+resource = ten99policy.Jobs.create(
     name="Truck driver",
     description="Requires a truck",
     duration_hours=20,
@@ -19,7 +19,7 @@ resource = t99.Jobs.create(
 # Updating a job (replace xxx with an existing job id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Jobs.modify('jb_C9Z2DmfHSF',
+resource = ten99policy.Jobs.modify('jb_C9Z2DmfHSF',
     name='Mechanic',
 )
 
@@ -27,16 +27,16 @@ resource = t99.Jobs.modify('jb_C9Z2DmfHSF',
 # Fetching the list of jobs
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Jobs.list()
+resource = ten99policy.Jobs.list()
 
 # -----------------------------------------------------------------------------------*/
 # Retrieving a job (replace xxx with an existing job id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Jobs.retrieve('jb_C9Z2DmfHSF')
+resource = ten99policy.Jobs.retrieve('jb_C9Z2DmfHSF')
 
 # -----------------------------------------------------------------------------------*/
 # Delete a job (replace xxx with an existing job id)
 #-----------------------------------------------------------------------------------*/
 
-resource = t99.Jobs.delete('jb_C9Z2DmfHSF')
+resource = ten99policy.Jobs.delete('jb_C9Z2DmfHSF')

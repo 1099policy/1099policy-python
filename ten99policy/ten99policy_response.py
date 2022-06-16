@@ -4,7 +4,7 @@ import json
 from collections import OrderedDict
 
 
-class T99ResponseBase(object):
+class Ten99PolicyResponseBase(object):
     def __init__(self, code, headers):
         self.code = code
         self.headers = headers
@@ -24,14 +24,14 @@ class T99ResponseBase(object):
             return None
 
 
-class T99Response(T99ResponseBase):
+class Ten99PolicyResponse(Ten99PolicyResponseBase):
     def __init__(self, body, code, headers):
-        T99ResponseBase.__init__(self, code, headers)
+        Ten99PolicyResponseBase.__init__(self, code, headers)
         self.body = body
         self.data = json.loads(body, object_pairs_hook=OrderedDict)
 
 
-class T99StreamResponse(T99ResponseBase):
+class Ten99PolicyStreamResponse(Ten99PolicyResponseBase):
     def __init__(self, io, code, headers):
-        T99ResponseBase.__init__(self, code, headers)
+        Ten99PolicyResponseBase.__init__(self, code, headers)
         self.io = io

@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 os.chdir(here)
 
 version_contents = {}
-with open(os.path.join(here, "t99", "version.py"), encoding="utf-8") as f:
+with open(os.path.join(here, "ten99policy", "version.py"), encoding="utf-8") as f:
     exec(f.read(), version_contents)
 
 setup(
@@ -28,9 +28,9 @@ setup(
     ],
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     project_urls={
-        "Bug Tracker": "https://github.com/t99/t99-python/issues",
-        "Documentation": "https://t99.com/docs/api/?lang=python",
-        "Source Code": "https://github.com/t99/t99-python",
+        "Bug Tracker": "https://github.com/1099policy/1099policy-client-python/issues",
+        "Documentation": "https://ten99policy.com/docs/api/?lang=python",
+        "Source Code": "https://github.com/1099policy/1099policy-client-python",
     },
     classifiers=[
         "Development Status :: 5 - Production/Stable",

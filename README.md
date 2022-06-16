@@ -95,10 +95,10 @@ production use, but `debug` is also available for more verbosity.
 
 There are a few options for enabling it:
 
-1. Set the environment variable `T99_LOG` to the value `debug` or `info`
+1. Set the environment variable `Ten99Policy_LOG` to the value `debug` or `info`
 
     ```sh
-    $ export T99_LOG=debug
+    $ export Ten99Policy_LOG=debug
     ```
 
 2. Set `1099policy.log`:
