@@ -23,7 +23,7 @@ class Ten99PolicyError(Exception):
             except BaseException:
                 http_body = (
                     "<Could not decode body as utf-8. "
-                    "Please report to support@ten99policy.com>"
+                    "Please report to support@1099policy.com>"
                 )
 
         self._message = message

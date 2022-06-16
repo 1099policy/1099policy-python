@@ -13,7 +13,7 @@ from ten99policy import six
 from ten99policy.six.moves.urllib.parse import parse_qsl
 
 
-Ten99Policy_LOG = os.environ.get("Ten99Policy_LOG")
+TEN99POLICY_LOG = os.environ.get("TEN99POLICY_LOG")
 
 logger = logging.getLogger("ten99policy")
 
@@ -43,8 +43,8 @@ def is_appengine_dev():
 def _console_log_level():
     if ten99policy.log in ["debug", "info"]:
         return ten99policy.log
-    elif Ten99Policy_LOG in ["debug", "info"]:
-        return Ten99Policy_LOG
+    elif TEN99POLICY_LOG in ["debug", "info"]:
+        return TEN99POLICY_LOG
     else:
         return None
 

@@ -25,6 +25,6 @@ class ListableAPIResource(APIResource):
             response, api_key, ten99policy_version, ten99policy_account
         )
 
-        # cemre burayi sildi
+        # CFK: take a look at here
         # ten99policy_object._retrieve_params = params
         return ten99policy_object

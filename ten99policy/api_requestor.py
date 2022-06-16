@@ -142,7 +142,7 @@ class APIRequestor(object):
         raise err
 
     def specific_api_error(self, rbody, rcode, resp, rheaders, error_data):
-        # Cemre Burayi Degistir. Hatali.
+        # CFK: take a look at here
         util.log_info("Ten99Policy API error received", error_message=error_data)
         return error.Ten99PolicyError(
             error_data, rbody, rcode, resp, rheaders
@@ -209,8 +209,8 @@ class APIRequestor(object):
             raise error.AuthenticationError(
                 "No API key provided. (HINT: set your API key using "
                 '"ten99policy.api_key = <API-KEY>"). You can generate API keys '
-                "from the Ten99Policy web interface.  See https://ten99policy.com/api "
-                "for details, or email support@ten99policy.com if you have any "
+                "from the Ten99Policy web interface.  See https://1099policy.com/api "
+                "for details, or email support@1099policy.com if you have any "
                 "questions."
             )
 
@@ -245,7 +245,7 @@ class APIRequestor(object):
         else:
             raise error.APIConnectionError(
                 "Unrecognized HTTP method %r.  This may indicate a bug in the "
-                "Ten99Policy bindings.  Please contact support@ten99policy.com for "
+                "Ten99Policy bindings.  Please contact support@1099policy.com for "
                 "assistance." % (method,)
             )
 

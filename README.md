@@ -20,7 +20,7 @@ You don't need this source code unless you want to modify the package. If you ju
 want to use the package, just run:
 
 ```sh
-pip install --upgrade 1099policy
+pip install --upgrade ten99policy
 ```
 
 Install from source with:
@@ -36,7 +36,7 @@ python setup.py install
 ## Usage
 
 The library needs to be configured with your account's secret key which is
-available in your [1099policy Dashboard][api-keys]. Set `1099policy.api_key` to its
+available in your [1099policy Dashboard][api-keys]. Set `ten99policy.api_key` to its
 value:
 
 ```python
@@ -66,10 +66,10 @@ these errors.
 
 ### Configuring a Proxy
 
-A proxy can be configured with `1099policy.proxy`:
+A proxy can be configured with `ten99policy.proxy`:
 
 ```python
-1099policy.proxy = "https://user:pass@example.com:1234"
+ten99policy.proxy = "https://user:pass@example.com:1234"
 ```
 
 ### Configuring Automatic Retries
@@ -78,7 +78,7 @@ You can enable automatic retries on requests that fail due to a transient
 problem by configuring the maximum number of retries:
 
 ```python
-1099policy.max_network_retries = 2
+ten99policy.max_network_retries = 2
 ```
 
 Various errors can trigger a retry, like a connection error or a timeout, and
@@ -95,17 +95,17 @@ production use, but `debug` is also available for more verbosity.
 
 There are a few options for enabling it:
 
-1. Set the environment variable `Ten99Policy_LOG` to the value `debug` or `info`
+1. Set the environment variable `TEN99POLICY_LOG` to the value `debug` or `info`
 
     ```sh
-    $ export Ten99Policy_LOG=debug
+    $ export TEN99POLICY_LOG=debug
     ```
 
-2. Set `1099policy.log`:
+2. Set `ten99policy.log`:
 
     ```python
     import ten99policy
-    1099policy.log = 'debug'
+    ten99policy.log = 'debug'
     ```
 
 3. Enable it through Python's logging module:
@@ -113,5 +113,5 @@ There are a few options for enabling it:
     ```python
     import logging
     logging.basicConfig()
-    logging.getLogger('1099policy').setLevel(logging.DEBUG)
+    logging.getLogger('ten99policy').setLevel(logging.DEBUG)
     ```

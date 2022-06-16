@@ -45,7 +45,7 @@ else:
                 '"requests" library is version %s. Ten99Policy will fall back to '
                 "an alternate HTTP library so everything should work. We "
                 'recommend upgrading your "requests" library. If you have any '
-                "questions, please contact support@ten99policy.com. (HINT: running "
+                "questions, please contact support@1099policy.com. (HINT: running "
                 '"pip install -U requests" should upgrade your requests '
                 "library to the latest version.)" % (version,)
             )
@@ -331,7 +331,7 @@ class RequestsClient(HTTPClient):
                 "Could not verify Ten99Policy's SSL certificate.  Please make "
                 "sure that your network is not intercepting certificates.  "
                 "If this problem persists, let us know at "
-                "support@ten99policy.com."
+                "support@1099policy.com."
             )
             err = "%s: %s" % (type(e).__name__, str(e))
             should_retry = False
@@ -343,7 +343,7 @@ class RequestsClient(HTTPClient):
             msg = (
                 "Unexpected error communicating with ten99policy.  "
                 "If this problem persists, let us know at "
-                "support@ten99policy.com."
+                "support@1099policy.com."
             )
             err = "%s: %s" % (type(e).__name__, str(e))
             should_retry = True
@@ -352,7 +352,7 @@ class RequestsClient(HTTPClient):
             msg = (
                 "Unexpected error communicating with ten99policy.  "
                 "If this problem persists, let us know at "
-                "support@ten99policy.com."
+                "support@1099policy.com."
             )
             err = "%s: %s" % (type(e).__name__, str(e))
             should_retry = False
@@ -361,7 +361,7 @@ class RequestsClient(HTTPClient):
                 "Unexpected error communicating with ten99policy. "
                 "It looks like there's probably a configuration "
                 "issue locally.  If this problem persists, let us "
-                "know at support@ten99policy.com."
+                "know at support@1099policy.com."
             )
             err = "A %s was raised" % (type(e).__name__,)
             if str(e):
@@ -439,7 +439,7 @@ class UrlFetchClient(HTTPClient):
                 "The Ten99Policy library attempted to fetch an "
                 "invalid URL (%r). This is likely due to a bug "
                 "in the Ten99Policy Python bindings. Please let us know "
-                "at support@ten99policy.com." % (url,)
+                "at support@1099policy.com." % (url,)
             )
         elif isinstance(e, urlfetch.DownloadError):
             msg = "There was a problem retrieving data from ten99policy."
@@ -447,12 +447,12 @@ class UrlFetchClient(HTTPClient):
             msg = (
                 "There was a problem receiving all of your data from "
                 "ten99policy.  This is likely due to a bug in ten99policy. "
-                "Please let us know at support@ten99policy.com."
+                "Please let us know at support@1099policy.com."
             )
         else:
             msg = (
                 "Unexpected error communicating with ten99policy. If this "
-                "problem persists, let us know at support@ten99policy.com."
+                "problem persists, let us know at support@1099policy.com."
             )
 
         msg = textwrap.fill(msg) + "\n\n(Network error: " + str(e) + ")"
@@ -571,7 +571,7 @@ class PycurlClient(HTTPClient):
                 "internet connection and try again.  If this problem "
                 "persists, you should check Ten99Policy's service status at "
                 "https://twitter.com/ten99policystatus, or let us know at "
-                "support@ten99policy.com."
+                "support@1099policy.com."
             )
             should_retry = True
         elif e.args[0] in [pycurl.E_SSL_CACERT, pycurl.E_SSL_PEER_CERTIFICATE]:
@@ -579,13 +579,13 @@ class PycurlClient(HTTPClient):
                 "Could not verify Ten99Policy's SSL certificate.  Please make "
                 "sure that your network is not intercepting certificates.  "
                 "If this problem persists, let us know at "
-                "support@ten99policy.com."
+                "support@1099policy.com."
             )
             should_retry = False
         else:
             msg = (
                 "Unexpected error communicating with ten99policy. If this "
-                "problem persists, let us know at support@ten99policy.com."
+                "problem persists, let us know at support@1099policy.com."
             )
             should_retry = False
 
@@ -664,7 +664,7 @@ class Urllib2Client(HTTPClient):
     def _handle_request_error(self, e):
         msg = (
             "Unexpected error communicating with ten99policy. "
-            "If this problem persists, let us know at support@ten99policy.com."
+            "If this problem persists, let us know at support@1099policy.com."
         )
         msg = textwrap.fill(msg) + "\n\n(Network error: " + str(e) + ")"
         raise error.APIConnectionError(msg)

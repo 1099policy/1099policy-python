@@ -17,7 +17,7 @@ setup(
     long_description_content_type="text/x-rst",
     author="Ray Ventura",
     author_email="support@1099policy.com",
-    url="https://github.com/1099policy/ten99policy-python",
+    url="https://github.com/1099policy/1099policy-client-python",
     license="MIT",
     keywords="ten99policy api insurance",
     packages=find_packages(exclude=["tests", "tests.*"]),
@@ -29,7 +29,7 @@ setup(
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     project_urls={
         "Bug Tracker": "https://github.com/1099policy/1099policy-client-python/issues",
-        "Documentation": "https://ten99policy.com/docs/api/?lang=python",
+        "Documentation": "https://1099policy.com/docs/api/?lang=python",
         "Source Code": "https://github.com/1099policy/1099policy-client-python",
     },
     classifiers=[
