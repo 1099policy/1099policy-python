@@ -182,9 +182,6 @@ class APIRequestor(object):
         if self.ten99policy_environment:
             headers["Ten99Policy-Environment"] = self.ten99policy_environment
 
-        import pdb
-        pdb.set_trace()
-
         if method in ["post", "put", "patch"]:
             headers["Content-Type"] = "application/json"
             headers.setdefault("Idempotency-Key", str(uuid.uuid4()))
