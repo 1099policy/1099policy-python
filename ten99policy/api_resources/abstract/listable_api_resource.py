@@ -11,18 +11,19 @@ class ListableAPIResource(APIResource):
 
     @classmethod
     def list(
-        cls, api_key=None, ten99policy_version=None, ten99policy_account=None, **params
+        cls, api_key=None, ten99policy_version=None, ten99policy_account=None, ten99policy_environment=None, **params
     ):
         requestor = api_requestor.APIRequestor(
             api_key,
             api_base=cls.api_base(),
             api_version=ten99policy_version,
             account=ten99policy_account,
+            environment=ten99policy_environment,
         )
         url = cls.class_url()
         response, api_key = requestor.request("get", url, params)
         ten99policy_object = util.convert_to_ten99policy_object(
-            response, api_key, ten99policy_version, ten99policy_account
+            response, api_key, ten99policy_version, ten99policy_account, ten99policy_environment
         )
 
         # CFK: take a look at here

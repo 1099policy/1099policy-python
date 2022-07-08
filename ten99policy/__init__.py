@@ -10,6 +10,7 @@ verify_ssl_certs = False
 proxy = None
 default_http_client = None
 max_network_retries = 0
+environment = 'sandbox'
 
 # Set to either 'debug' or 'info', controls console logging
 log = 'debug'
