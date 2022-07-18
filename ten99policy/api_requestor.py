@@ -74,11 +74,13 @@ class APIRequestor(object):
         api_base=None,
         api_version=None,
         account=None,
+        environment=None,
     ):
         self.api_base = api_base or ten99policy.api_base
         self.api_key = key
         self.api_version = api_version or ten99policy.api_version
         self.ten99policy_account = account
+        self.ten99policy_environment = environment or ten99policy.environment
 
         self._default_proxy = None
 
@@ -176,6 +178,9 @@ class APIRequestor(object):
 
         if self.ten99policy_account:
             headers["Ten99Policy-Account"] = self.ten99policy_account
+
+        if self.ten99policy_environment:
+            headers["Ten99Policy-Environment"] = self.ten99policy_environment
 
         if method in ["post", "put", "patch"]:
             headers["Content-Type"] = "application/json"

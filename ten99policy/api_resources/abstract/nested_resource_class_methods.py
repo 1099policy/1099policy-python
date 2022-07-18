@@ -36,15 +36,16 @@ def nested_resource_class_methods(
             idempotency_key=None,
             ten99policy_version=None,
             ten99policy_account=None,
+            ten99policy_environment=None,
             **params
         ):
             requestor = api_requestor.APIRequestor(
-                api_key, api_version=ten99policy_version, account=ten99policy_account
+                api_key, api_version=ten99policy_version, account=ten99policy_account, environment=ten99policy_environment
             )
             headers = util.populate_headers(idempotency_key)
             response, api_key = requestor.request(method, url, params, headers)
             return util.convert_to_ten99policy_object(
-                response, api_key, ten99policy_version, ten99policy_account
+                response, api_key, ten99policy_version, ten99policy_account, ten99policy_environment
             )
 
         resource_request_method = "%ss_request" % resource

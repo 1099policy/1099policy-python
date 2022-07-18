@@ -11,6 +11,7 @@ class ErrorObject(Ten99PolicyObject):
         partial=False,
         ten99policy_version=None,
         ten99policy_account=None,
+        ten99policy_environment=None,
         last_response=None,
     ):
         return super(ErrorObject, self).refresh_from(
@@ -19,5 +20,6 @@ class ErrorObject(Ten99PolicyObject):
             partial,
             ten99policy_version,
             ten99policy_account,
+            ten99policy_environment,
             last_response,
         )

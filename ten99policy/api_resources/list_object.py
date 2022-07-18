@@ -10,7 +10,7 @@ class ListObject(Ten99PolicyObject):
     OBJECT_NAME = "list"
 
     def list(
-        self, api_key=None, ten99policy_version=None, ten99policy_account=None, **params
+        self, api_key=None, ten99policy_version=None, ten99policy_account=None, ten99policy_environment=None, **params
     ):
         ten99policy_object = self._request(
             "get",
@@ -18,6 +18,7 @@ class ListObject(Ten99PolicyObject):
             api_key=api_key,
             ten99policy_version=ten99policy_version,
             ten99policy_account=ten99policy_account,
+            ten99policy_environment=ten99policy_environment,
             **params
         )
         ten99policy_object._retrieve_params = params
@@ -29,6 +30,7 @@ class ListObject(Ten99PolicyObject):
         idempotency_key=None,
         ten99policy_version=None,
         ten99policy_account=None,
+        ten99policy_environment=None,
         **params
     ):
         return self._request(
@@ -38,6 +40,7 @@ class ListObject(Ten99PolicyObject):
             idempotency_key=idempotency_key,
             ten99policy_version=ten99policy_version,
             ten99policy_account=ten99policy_account,
+            ten99policy_environment=ten99policy_environment,
             **params
         )
 
@@ -47,6 +50,7 @@ class ListObject(Ten99PolicyObject):
         api_key=None,
         ten99policy_version=None,
         ten99policy_account=None,
+        ten99policy_environment=None,
         **params
     ):
         url = "%s/%s" % (self.get("url"), quote_plus(util.utf8(id)))
@@ -56,6 +60,7 @@ class ListObject(Ten99PolicyObject):
             api_key=api_key,
             ten99policy_version=ten99policy_version,
             ten99policy_account=ten99policy_account,
+            ten99policy_environment=ten99policy_environment,
             **params
         )
 
@@ -67,19 +72,21 @@ class ListObject(Ten99PolicyObject):
         idempotency_key=None,
         ten99policy_version=None,
         ten99policy_account=None,
+        ten99policy_environment=None,
         **params
     ):
         api_key = api_key or self.api_key
         ten99policy_version = ten99policy_version or self.ten99policy_version
         ten99policy_account = ten99policy_account or self.ten99policy_account
+        ten99policy_environment = ten99policy_environment or self.ten99policy_environment
 
         requestor = api_requestor.APIRequestor(
-            api_key, api_version=ten99policy_version, account=ten99policy_account
+            api_key, api_version=ten99policy_version, account=ten99policy_account, environment=ten99policy_environment
         )
         headers = util.populate_headers(idempotency_key)
         response, api_key = requestor.request(method_, url_, params, headers)
         ten99policy_object = util.convert_to_ten99policy_object(
-            response, api_key, ten99policy_version, ten99policy_account
+            response, api_key, ten99policy_version, ten99policy_account, ten99policy_environment
         )
         return ten99policy_object
 
@@ -124,13 +131,14 @@ class ListObject(Ten99PolicyObject):
 
     @classmethod
     def empty_list(
-        cls, api_key=None, ten99policy_version=None, ten99policy_account=None
+        cls, api_key=None, ten99policy_version=None, ten99policy_account=None, ten99policy_environment=None
     ):
         return cls.construct_from(
             {"data": []},
             key=api_key,
             ten99policy_version=ten99policy_version,
             ten99policy_account=ten99policy_account,
+            ten99policy_environment=ten99policy_environment,
             last_response=None,
         )
 
@@ -139,13 +147,14 @@ class ListObject(Ten99PolicyObject):
         return not self.data
 
     def next_page(
-        self, api_key=None, ten99policy_version=None, ten99policy_account=None, **params
+        self, api_key=None, ten99policy_version=None, ten99policy_account=None, ten99policy_environment=None, **params
     ):
         if not self.has_more:
             return self.empty_list(
                 api_key=api_key,
                 ten99policy_version=ten99policy_version,
                 ten99policy_account=ten99policy_account,
+                ten99policy_environment=ten99policy_environment,
             )
 
         last_id = self.data[-1].id
@@ -158,6 +167,7 @@ class ListObject(Ten99PolicyObject):
             api_key=api_key,
             ten99policy_version=ten99policy_version,
             ten99policy_account=ten99policy_account,
+            ten99policy_environment=ten99policy_environment,
             **params_with_filters
         )
 
@@ -169,6 +179,7 @@ class ListObject(Ten99PolicyObject):
                 api_key=api_key,
                 ten99policy_version=ten99policy_version,
                 ten99policy_account=ten99policy_account,
+                ten99policy_environment=ten99policy_environment,
             )
 
         first_id = self.data[0].id
@@ -181,5 +192,6 @@ class ListObject(Ten99PolicyObject):
             api_key=api_key,
             ten99policy_version=ten99policy_version,
             ten99policy_account=ten99policy_account,
+            ten99policy_environment=ten99policy_environment,
             **params_with_filters
         )
