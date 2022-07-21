@@ -55,7 +55,6 @@ s3transfer==0.6.0
 setuptools-scm==6.4.2
 six==1.16.0
 stevedore==3.5.0
-ten99policy==1.0.1
 tldextract==2.2.3
 toml==0.10.2
 tomli==2.0.1
