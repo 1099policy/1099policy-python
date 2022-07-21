@@ -13,4 +13,4 @@ resource = ten99policy.Events.list()
 # Retrieving an event (replace xxx with an existing event id)
 #-----------------------------------------------------------------------------------*/
 
-resource = ten99policy.Events.retrieve('jb_C9Z2DmfHSF')
+resource = ten99policy.Events.retrieve('wh_D1Z2DmgHSF')
