@@ -12,7 +12,7 @@ resource = ten99policy.Contractors.create(
     last_name="Doe",
     email="john@doe.com",
     phone="415-111-1111",
-    tax_identification=123456,
+    tax_identification="123-456789",
     address={
         "country": "USA",
         "line1": "2211 Mission St",
