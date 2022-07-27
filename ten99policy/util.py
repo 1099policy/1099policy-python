@@ -131,7 +131,7 @@ def get_object_classes():
 
 
 def convert_to_ten99policy_object(
-    resp, api_key=None, ten99policy_version=None, ten99policy_account=None, ten99policy_environment=None
+    resp, api_key=None, ten99policy_version=None, ten99policy_environment=None
 ):
     # If we get a Ten99PolicyResponse, we'll want to return a
     # Ten99PolicyObject with the last_response field filled out with
@@ -145,7 +145,7 @@ def convert_to_ten99policy_object(
     if isinstance(resp, list):
         return [
             convert_to_ten99policy_object(
-                i, api_key, ten99policy_version, ten99policy_account, ten99policy_environment
+                i, api_key, ten99policy_version, ten99policy_environment
             )
             for i in resp
         ]
@@ -165,7 +165,6 @@ def convert_to_ten99policy_object(
             resp,
             api_key,
             ten99policy_version=ten99policy_version,
-            ten99policy_account=ten99policy_account,
             ten99policy_environment=ten99policy_environment,
             last_response=ten99policy_response,
         )

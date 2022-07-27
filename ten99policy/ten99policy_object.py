@@ -45,7 +45,6 @@ class Ten99PolicyObject(dict):
         id=None,
         api_key=None,
         ten99policy_version=None,
-        ten99policy_account=None,
         ten99policy_environment=None,
         last_response=None,
         **params
@@ -61,7 +60,6 @@ class Ten99PolicyObject(dict):
 
         object.__setattr__(self, "api_key", api_key)
         object.__setattr__(self, "ten99policy_version", ten99policy_version)
-        object.__setattr__(self, "ten99policy_account", ten99policy_account)
         object.__setattr__(self, "ten99policy_environment", ten99policy_environment)
 
         if id:
@@ -155,7 +153,6 @@ class Ten99PolicyObject(dict):
                 self.get("id", None),
                 self.api_key,
                 self.ten99policy_version,
-                self.ten99policy_account,
                 self.ten99policy_environment,
             ),
             dict(self),  # state
@@ -168,7 +165,6 @@ class Ten99PolicyObject(dict):
         values,
         key,
         ten99policy_version=None,
-        ten99policy_account=None,
         ten99policy_environment=None,
         last_response=None,
     ):
@@ -176,7 +172,6 @@ class Ten99PolicyObject(dict):
             values.get("id"),
             api_key=key,
             ten99policy_version=ten99policy_version,
-            ten99policy_account=ten99policy_account,
             ten99policy_environment=ten99policy_environment,
             last_response=last_response,
         )
@@ -184,7 +179,6 @@ class Ten99PolicyObject(dict):
             values,
             api_key=key,
             ten99policy_version=ten99policy_version,
-            ten99policy_account=ten99policy_account,
             ten99policy_environment=ten99policy_environment,
             last_response=last_response,
         )
@@ -196,16 +190,12 @@ class Ten99PolicyObject(dict):
         api_key=None,
         partial=False,
         ten99policy_version=None,
-        ten99policy_account=None,
         ten99policy_environment=None,
         last_response=None,
     ):
         self.api_key = api_key or getattr(values, "api_key", None)
         self.ten99policy_version = ten99policy_version or getattr(
             values, "ten99policy_version", None
-        )
-        self.ten99policy_account = ten99policy_account or getattr(
-            values, "ten99policy_account", None
         )
         self.ten99policy_environment = ten99policy_environment or getattr(
             values, "ten99policy_environment", None
@@ -231,7 +221,7 @@ class Ten99PolicyObject(dict):
             super(Ten99PolicyObject, self).__setitem__(
                 k,
                 util.convert_to_ten99policy_object(
-                    v, api_key, ten99policy_version, ten99policy_account, ten99policy_environment
+                    v, api_key, ten99policy_version, ten99policy_environment
                 ),
             )
 
@@ -248,13 +238,12 @@ class Ten99PolicyObject(dict):
             key=self.api_key,
             api_base=self.api_base(),
             api_version=self.ten99policy_version,
-            account=self.ten99policy_account,
             environment=self.ten99policy_environment,
         )
         response, api_key = requestor.request(method, url, params, headers)
 
         return util.convert_to_ten99policy_object(
-            response, api_key, self.ten99policy_version, self.ten99policy_account, self.ten99policy_environment
+            response, api_key, self.ten99policy_version, self.ten99policy_environment
         )
 
     def request_stream(self, method, url, params=None, headers=None):
@@ -264,7 +253,6 @@ class Ten99PolicyObject(dict):
             key=self.api_key,
             api_base=self.api_base(),
             api_version=self.ten99policy_version,
-            account=self.ten99policy_account,
             environment=self.ten99policy_environment,
         )
         response, _ = requestor.request_stream(method, url, params, headers)
@@ -353,7 +341,6 @@ class Ten99PolicyObject(dict):
             self.get("id"),
             self.api_key,
             ten99policy_version=self.ten99policy_version,
-            ten99policy_account=self.ten99policy_account,
             ten99policy_environment=self.ten99policy_environment,
         )
 

@@ -10,7 +10,6 @@ class ErrorObject(Ten99PolicyObject):
         api_key=None,
         partial=False,
         ten99policy_version=None,
-        ten99policy_account=None,
         ten99policy_environment=None,
         last_response=None,
     ):
@@ -19,7 +18,6 @@ class ErrorObject(Ten99PolicyObject):
             api_key,
             partial,
             ten99policy_version,
-            ten99policy_account,
             ten99policy_environment,
             last_response,
         )

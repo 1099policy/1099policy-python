@@ -73,13 +73,11 @@ class APIRequestor(object):
         client=None,
         api_base=None,
         api_version=None,
-        account=None,
         environment=None,
     ):
         self.api_base = api_base or ten99policy.api_base
         self.api_key = key
         self.api_version = api_version or ten99policy.api_version
-        self.ten99policy_account = account
         self.ten99policy_environment = environment or ten99policy.environment
 
         self._default_proxy = None
@@ -175,9 +173,6 @@ class APIRequestor(object):
             "User-Agent": user_agent,
             "Authorization": "Bearer %s" % (api_key,),
         }
-
-        if self.ten99policy_account:
-            headers["Ten99Policy-Account"] = self.ten99policy_account
 
         if self.ten99policy_environment:
             headers["Ten99Policy-Environment"] = self.ten99policy_environment
