@@ -14,3 +14,4 @@ from ten99policy.api_resources.quotes import Quotes
 from ten99policy.api_resources.invoices import Invoices
 from ten99policy.api_resources.insurance_application_sessions import InsuranceApplicationSessions
 from ten99policy.api_resources.events import Events
+from ten99policy.api_resources.assignments import Assignments
