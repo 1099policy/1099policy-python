@@ -10,7 +10,7 @@ import ten99policy
 resource = ten99policy.Quotes.create(
     job_id="jb_jsb9KEcTpc",
     contractor_id="cn_yJBbMeq9QA",
-    coverage_type="general"
+    coverage_type=["general", "workers-comp"],
 )
 
 # -----------------------------------------------------------------------------------*/
