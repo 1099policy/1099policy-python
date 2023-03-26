@@ -14,7 +14,7 @@ resource = ten99policy.Jobs.create(
     wage=100,
     years_experience=20,
     wage_type="flatfee",
-    entity_id="en_FwZfQRe4aW",
+    entity="en_FwZfQRe4aW",
     category_code="jc_MTqpkbkp6G"
 )
 
