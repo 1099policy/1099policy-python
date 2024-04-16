@@ -7,6 +7,7 @@ import platform
 import time
 import uuid
 import warnings
+import urllib.parse
 from collections import OrderedDict
 
 import ten99policy
@@ -57,11 +58,11 @@ def _api_encode(data):
             yield (key, util.utf8(value))
 
 
-def _build_api_url(url, query):
+def _build_api_url(url, query, query_string=None):
     scheme, netloc, path, base_query, fragment = urlsplit(url)
 
-    if base_query:
-        query = "%s&%s" % (base_query, query)
+    if base_query and query_string:
+        query = "%s&%s" % (base_query, query_string)
 
     return urlunsplit((scheme, netloc, path, query, fragment))
 
@@ -226,7 +227,8 @@ class APIRequestor(object):
 
         if method == "get" or method == "delete":
             if params:
-                abs_url = _build_api_url(abs_url, encoded_params)
+                data = urllib.parse.urlencode(params)
+                abs_url = _build_api_url(abs_url, data)
             post_data = None
         elif method == "post" or method == "put" or method == "patch":
             if (
