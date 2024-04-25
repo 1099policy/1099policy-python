@@ -217,6 +217,9 @@ class Ten99PolicyObject(dict):
 
         self._transient_values = self._transient_values - set(values)
 
+        # if not isinstance(values, dict):
+        #     return values
+
         for k, v in six.iteritems(values):
             super(Ten99PolicyObject, self).__setitem__(
                 k,

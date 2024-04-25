@@ -5,7 +5,7 @@ import ten99policy
 
 # -----------------------------------------------------------------------------------*/
 # Creating a contractor
-#-----------------------------------------------------------------------------------*/
+# -----------------------------------------------------------------------------------*/
 
 resource = ten99policy.Contractors.create(
     first_name="John",
@@ -18,33 +18,34 @@ resource = ten99policy.Contractors.create(
         "line1": "2211 Mission St",
         "locality": "San Francisco",
         "region": "CA",
-        "postalcode": "94110"
-    }
+        "postalcode": "94110",
+    },
 )
 
 # -----------------------------------------------------------------------------------*/
 # Updating a contractor (replace xxx with an existing contractor id)
-#-----------------------------------------------------------------------------------*/
+# -----------------------------------------------------------------------------------*/
 
-resource = ten99policy.Contractors.modify('cn_tS3wR3UQ5q',
-    email='john.doe@gmail.com',
-    first_name="George"
+resource = ten99policy.Contractors.modify(
+    "cn_tS3wR3UQ5q",
+    email="john.doe@gmail.com",
+    first_name="George",
 )
 
 # -----------------------------------------------------------------------------------*/
 # Fetching the list of contractors
-#-----------------------------------------------------------------------------------*/
+# -----------------------------------------------------------------------------------*/
 
 resource = ten99policy.Contractors.list()
 
 # -----------------------------------------------------------------------------------*/
 # Retrieving a contractor (replace xxx with an existing contractor id)
-#-----------------------------------------------------------------------------------*/
+# -----------------------------------------------------------------------------------*/
 
-resource = ten99policy.Contractors.retrieve('cn_9TPKz6B9so')
+resource = ten99policy.Contractors.retrieve("cn_9TPKz6B9so")
 
 # -----------------------------------------------------------------------------------*/
 # Delete a contractor (replace xxx with an existing contractor id)
-#-----------------------------------------------------------------------------------*/
+# -----------------------------------------------------------------------------------*/
 
-resource = ten99policy.Contractors.delete('cn_tS3wR3UQ5q')
+resource = ten99policy.Contractors.delete("cn_tS3wR3UQ5q")

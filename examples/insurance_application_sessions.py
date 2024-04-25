@@ -5,22 +5,24 @@ import ten99policy
 
 # -----------------------------------------------------------------------------------*/
 # Creating an insurance application session
-#-----------------------------------------------------------------------------------*/
+# -----------------------------------------------------------------------------------*/
 
 resource = ten99policy.InsuranceApplicationSessions.create(
     quote="qt_yVEnbNaWh6",
     success_url="http://example.com/success",
-    cancel_url="http://example.com/cancel"
+    cancel_url="http://example.com/cancel",
 )
 
 # -----------------------------------------------------------------------------------*/
 # Fetching the list of insurance application sessions
-#-----------------------------------------------------------------------------------*/
+# -----------------------------------------------------------------------------------*/
 
 resource = ten99policy.InsuranceApplicationSessions.list()
 
 # -----------------------------------------------------------------------------------*/
 # Retrieving an insurance application session (replace xxx with an existing insurance application session id)
-#-----------------------------------------------------------------------------------*/
+# -----------------------------------------------------------------------------------*/
 
-resource = ten99policy.InsuranceApplicationSessions.retrieve('ias_01G4ZVGEXG4DQHZ1TZ6ANAWPD8')
+resource = ten99policy.InsuranceApplicationSessions.retrieve(
+    "ias_01G4ZVGEXG4DQHZ1TZ6ANAWPD8"
+)

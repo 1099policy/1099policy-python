@@ -11,7 +11,7 @@ class ListableAPIResource(APIResource):
 
     @classmethod
     def list(
-        cls, api_key=None, ten99policy_version=None, ten99policy_environment=None, **params
+        cls, id=None, api_key=None, ten99policy_version=None, ten99policy_environment=None, **params
     ):
         requestor = api_requestor.APIRequestor(
             api_key,
@@ -20,6 +20,11 @@ class ListableAPIResource(APIResource):
             environment=ten99policy_environment,
         )
         url = cls.class_url()
+
+        # supports contractors/{contractor_id}/policies
+        if id and '{}' in url:
+            url = url.format(id)
+
         response, api_key = requestor.request("get", url, params)
         ten99policy_object = util.convert_to_ten99policy_object(
             response, api_key, ten99policy_version, ten99policy_environment

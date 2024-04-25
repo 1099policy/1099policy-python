@@ -42,6 +42,7 @@ class APIResource(Ten99PolicyObject):
         id = util.utf8(id)
         base = self.class_url()
         extn = quote_plus(id)
+
         return "%s/%s" % (base, extn)
 
     # The `method_` and `url_` arguments are suffixed with an underscore to
