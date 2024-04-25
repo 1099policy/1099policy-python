@@ -1,6 +1,6 @@
 # 1099policy Python Library
 
-[![CircleCI](https://circleci.com/gh/1099policy/ten99policy-python/tree/master.svg?style=svg)](https://circleci.com/gh/1099policy/ten99policy-python/tree/master)
+<!-- [![CircleCI](https://circleci.com/gh/1099policy/ten99policy-python/tree/master.svg?style=svg)](https://circleci.com/gh/1099policy/ten99policy-python/tree/master) -->
 [![Maintainability](https://api.codeclimate.com/v1/badges/25dc3b9db072fdfe552e/maintainability)](https://codeclimate.com/github/1099policy/ten99policy-python/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/25dc3b9db072fdfe552e/test_coverage)](https://codeclimate.com/github/1099policy/ten99policy-python/test_coverage)
 
@@ -12,7 +12,7 @@ API.
 
 ## Documentation
 
-See the [Python API docs](https://1099policy.com/docs/api?lang=python).
+See the [Python API docs](https://docs.1099policy.com).
 
 ## Installation
 
@@ -59,8 +59,8 @@ print(contractor.email)
 ### Handling exceptions
 
 Unsuccessful requests raise exceptions. The class of the exception will reflect
-the sort of error that occurred. Please see the [Api
-Reference](https://1099policy.com/docs/api/errors/handling) for a description of
+the sort of error that occurred. Please see the [API
+Reference](https://docs.1099policy.com) for a description of
 the error classes you should handle, and for information on how to inspect
 these errors.
 
