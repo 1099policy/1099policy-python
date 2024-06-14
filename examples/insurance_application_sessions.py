@@ -14,6 +14,16 @@ resource = ten99policy.InsuranceApplicationSessions.create(
 )
 
 # -----------------------------------------------------------------------------------*/
+# Updating a session
+# -----------------------------------------------------------------------------------*/
+
+resource = ten99policy.InsuranceApplicationSessions.modify(
+    "ias_01HZSB299T5D9SCNY98T8P10KC",
+    success_url="http://example.com/success",
+    cancel_url="http://example.com/cancel",
+)
+
+# -----------------------------------------------------------------------------------*/
 # Fetching the list of insurance application sessions
 # -----------------------------------------------------------------------------------*/
 
@@ -24,5 +34,5 @@ resource = ten99policy.InsuranceApplicationSessions.list()
 # -----------------------------------------------------------------------------------*/
 
 resource = ten99policy.InsuranceApplicationSessions.retrieve(
-    "ias_01G4ZVGEXG4DQHZ1TZ6ANAWPD8"
+    "ias_01HZSB299T5D9SCNY98T8P10KC"
 )
