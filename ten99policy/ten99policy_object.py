@@ -6,7 +6,7 @@ from copy import deepcopy
 
 import ten99policy
 from ten99policy import api_requestor, util, six
-
+from collections import OrderedDict
 
 def _compute_diff(current, previous):
     if isinstance(current, dict):
@@ -168,6 +168,15 @@ class Ten99PolicyObject(dict):
         ten99policy_environment=None,
         last_response=None,
     ):
+        # Deserialize any stringified JSON values
+        for k, v in values.items():
+            if isinstance(v, str):
+                try:
+                    # Replace single quotes with double quotes and parse the JSON string
+                    values[k] = json.loads(v.replace("'", '"'))
+                except json.JSONDecodeError:
+                    pass  # Keep the original string if it can't be parsed
+
         instance = cls(
             values.get("id"),
             api_key=key,
