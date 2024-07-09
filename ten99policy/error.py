@@ -27,6 +27,15 @@ class Ten99PolicyError(Exception):
                 )
 
         self._message = message
+
+        if isinstance(message, dict):
+            try:
+                error_message = ', '.join(f"{key}: {value}" for key, value in message.items())
+            except Exception:
+                error_message = "Bad request"
+
+            self._message = error_message
+
         self.http_body = http_body
         self.http_status = http_status
         self.json_body = json_body
