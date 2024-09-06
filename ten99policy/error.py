@@ -30,7 +30,9 @@ class Ten99PolicyError(Exception):
 
         if isinstance(message, dict):
             try:
-                error_message = ', '.join(f"{key}: {value}" for key, value in message.items())
+                error_message = ", ".join(
+                    f"{key}: {value}" for key, value in message.items()
+                )
             except Exception:
                 error_message = "Bad request"
 
@@ -47,7 +49,7 @@ class Ten99PolicyError(Exception):
     def __str__(self):
         msg = self._message or "<empty message>"
         if self.request_id is not None:
-            return u"Request {0}: {1}".format(self.request_id, msg)
+            return "Request {0}: {1}".format(self.request_id, msg)
         else:
             return msg
 
@@ -56,7 +58,7 @@ class Ten99PolicyError(Exception):
     # in python2 via `error.message`. Unlike `str(error)`, it omits "Request
     # req_..." from the beginning of the string.
     @property
-    def user_message(self):
+    def message(self):
         return self._message
 
     def __repr__(self):
@@ -103,17 +105,13 @@ class APIConnectionError(Ten99PolicyError):
 
 class Ten99PolicyErrorWithParamCode(Ten99PolicyError):
     def __repr__(self):
-        return (
-            "%s(message=%r, param=%r, code=%r, http_status=%r, "
-            "request_id=%r)"
-            % (
-                self.__class__.__name__,
-                self._message,
-                self.param,
-                self.code,
-                self.http_status,
-                self.request_id,
-            )
+        return "%s(message=%r, param=%r, code=%r, http_status=%r, " "request_id=%r)" % (
+            self.__class__.__name__,
+            self._message,
+            self.param,
+            self.code,
+            self.http_status,
+            self.request_id,
         )
 
 
@@ -150,7 +148,185 @@ class RateLimitError(Ten99PolicyError):
     pass
 
 
-class SignatureVerificationError(Ten99PolicyError):
-    def __init__(self, message, sig_header, http_body=None):
-        super(SignatureVerificationError, self).__init__(message, http_body)
-        self.sig_header = sig_header
+class GeneralError(Ten99PolicyError):
+    pass
+
+
+class InvalidApiKeyError(Ten99PolicyError):
+    pass
+
+
+class AuthTokenExpiredError(Ten99PolicyError):
+    pass
+
+
+class ResourceNotFoundError(Ten99PolicyError):
+    pass
+
+
+class DatabaseOperationalError(Ten99PolicyError):
+    pass
+
+
+class InsufficientPermissionsError(Ten99PolicyError):
+    pass
+
+
+class NoTenantFoundError(Ten99PolicyError):
+    pass
+
+
+class InvalidWebhookSignatureError(Ten99PolicyError):
+    pass
+
+
+class InvalidInputError(Ten99PolicyError):
+    pass
+
+
+class BadRequestError(Ten99PolicyError):
+    pass
+
+
+class InvalidQuoteIdError(Ten99PolicyError):
+    pass
+
+
+class InvalidSessionIdError(Ten99PolicyError):
+    pass
+
+
+class SessionExpiredError(Ten99PolicyError):
+    pass
+
+
+class ApplicationAlreadyCompleteError(Ten99PolicyError):
+    pass
+
+
+class EffectiveDateInvalidError(Ten99PolicyError):
+    pass
+
+
+class EndDateInvalidError(Ten99PolicyError):
+    pass
+
+
+class InvalidContractorIdError(Ten99PolicyError):
+    pass
+
+
+class InvalidPolicyIdError(Ten99PolicyError):
+    pass
+
+
+class InvalidJobIdError(Ten99PolicyError):
+    pass
+
+
+class JobIsUsedError(Ten99PolicyError):
+    pass
+
+
+class InvalidAssignmentIdError(Ten99PolicyError):
+    pass
+
+
+class InvoiceAlreadyPaidError(Ten99PolicyError):
+    pass
+
+
+class MissingCertificatesError(Ten99PolicyError):
+    pass
+
+
+class InvalidFileTypeError(Ten99PolicyError):
+    pass
+
+
+class DuplicateEmailError(Ten99PolicyError):
+    pass
+
+
+class InvalidEntityIdError(Ten99PolicyError):
+    pass
+
+
+class InvalidEventIdError(Ten99PolicyError):
+    pass
+
+
+class InvalidPaycycleStartdateError(Ten99PolicyError):
+    pass
+
+
+class InvalidPaycycleEnddateError(Ten99PolicyError):
+    pass
+
+
+class NoActivePolicyError(Ten99PolicyError):
+    pass
+
+
+class AgencyPayInvoiceExistsError(Ten99PolicyError):
+    pass
+
+
+class InvalidInvoiceIdError(Ten99PolicyError):
+    pass
+
+
+class MissingJobCategoryCodeError(Ten99PolicyError):
+    pass
+
+
+class InvalidJobCategoryIdError(Ten99PolicyError):
+    pass
+
+
+class JobCategoryNotApprovedError(Ten99PolicyError):
+    pass
+
+
+class InvoiceExistsError(Ten99PolicyError):
+    pass
+
+
+class CustomApplicationsDisabledError(Ten99PolicyError):
+    pass
+
+
+class ContractHasMatchingPolicyError(Ten99PolicyError):
+    pass
+
+
+class CantUpdateCreateNewQuoteError(Ten99PolicyError):
+    pass
+
+
+class PolicyAlreadyExistsError(Ten99PolicyError):
+    pass
+
+
+class InvalidWebhookEndpointIdError(Ten99PolicyError):
+    pass
+
+
+class MissingContractorIdError(Ten99PolicyError):
+    pass
+
+
+class MissingCertificateError(Ten99PolicyError):
+    pass
+
+
+class NoCoverageRuleFoundError(Ten99PolicyError):
+    pass
+
+
+class InvalidMimeTypeError(Ten99PolicyError):
+    pass
+
+
+class InvalidFileSizeError(Ten99PolicyError):
+    pass

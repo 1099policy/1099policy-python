@@ -14,7 +14,10 @@ import ten99policy
 from ten99policy import error, http_client, version, util, six
 from ten99policy.multipart_data_generator import MultipartDataGenerator
 from ten99policy.six.moves.urllib.parse import urlsplit, urlunsplit
-from ten99policy.ten99policy_response import Ten99PolicyResponse, Ten99PolicyStreamResponse
+from ten99policy.ten99policy_response import (
+    Ten99PolicyResponse,
+    Ten99PolicyStreamResponse,
+)
 
 
 def _encode_datetime(dttime):
@@ -124,6 +127,7 @@ class APIRequestor(object):
     def handle_error_response(self, rbody, rcode, resp, rheaders):
         try:
             error_data = resp["message"]
+            error_code = resp["error_code"]
         except (KeyError, TypeError):
             raise error.APIError(
                 "Invalid response object from API: %r (HTTP response code "
@@ -133,21 +137,25 @@ class APIRequestor(object):
                 resp,
             )
 
-        err = None
-
-        if err is None:
-            err = self.specific_api_error(
-                rbody, rcode, resp, rheaders, error_data
-            )
-
-        raise err
-
-    def specific_api_error(self, rbody, rcode, resp, rheaders, error_data):
-        # CFK: take a look at here
-        util.log_info("Ten99Policy API error received", error_message=error_data)
-        return error.Ten99PolicyError(
-            error_data, rbody, rcode, resp, rheaders
+        raise self.specific_api_error(
+            rbody, rcode, resp, rheaders, error_data, error_code
         )
+
+    def specific_api_error(self, rbody, rcode, resp, rheaders, error_data, error_code):
+        # Log the received error data
+        util.log_info("Ten99Policy API error received", error_message=error_data)
+
+        # Convert the error_code to its corresponding exception class name
+        class_name = "".join(word.title() for word in error_code.split("_")) + "Error"
+
+        # Attempt to retrieve the exception class from the error module
+        exception_class = getattr(error, class_name, None)
+
+        # If the exception class exists, raise it; otherwise, raise Ten99PolicyError
+        if exception_class:
+            return exception_class(error_data, rbody, rcode, resp, rheaders)
+        else:
+            return error.Ten99PolicyError(error_data, rbody, rcode, resp, rheaders)
 
     def request_headers(self, api_key, method):
         user_agent = "Ten99Policy/v1 PythonBindings/%s" % (version.VERSION,)
@@ -233,15 +241,14 @@ class APIRequestor(object):
         elif method == "post" or method == "put" or method == "patch":
             if (
                 supplied_headers is not None
-                and supplied_headers.get("Content-Type")
-                == "multipart/form-data"
+                and supplied_headers.get("Content-Type") == "multipart/form-data"
             ):
                 generator = MultipartDataGenerator()
                 generator.add_params(params or {})
                 post_data = generator.get_post_data()
-                supplied_headers[
-                    "Content-Type"
-                ] = "multipart/form-data; boundary=%s" % (generator.boundary,)
+                supplied_headers["Content-Type"] = (
+                    "multipart/form-data; boundary=%s" % (generator.boundary,)
+                )
             else:
                 post_data = encoded_params
         else:
