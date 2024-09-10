@@ -193,7 +193,7 @@ def convert_to_dict(obj):
 
 def populate_headers(idempotency_key):
     if idempotency_key is not None:
-        return {"Ten99Policy-Idempotency-Key": idempotency_key}
+        return {"Ten99Policy-Idempotent-Key": idempotency_key}
     return None
 
 

@@ -12,7 +12,7 @@ class Ten99PolicyResponseBase(object):
     @property
     def idempotency_key(self):
         try:
-            return self.headers["idempotency-key"]
+            return self.headers["Ten99Policy-Idempotent-Key"]
         except KeyError:
             return None
 
