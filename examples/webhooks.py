@@ -4,7 +4,7 @@ import ten99policy
 # ten99policy.environment = 'sandbox'
 
 # -----------------------------------------------------------------------------------*/
-# Creating an entity
+# Creating a webhook
 # -----------------------------------------------------------------------------------*/
 
 resource = ten99policy.Webhooks.create(
@@ -13,7 +13,7 @@ resource = ten99policy.Webhooks.create(
 )
 
 # -----------------------------------------------------------------------------------*/
-# Updating an entity (replace xxx with an existing entity id)
+# Updating a webhook (replace xxx with an existing webhook id)
 # -----------------------------------------------------------------------------------*/
 
 resource = ten99policy.Webhooks.modify(
@@ -29,13 +29,13 @@ resource = ten99policy.Webhooks.modify(
 resource = ten99policy.Webhooks.list()
 
 # -----------------------------------------------------------------------------------*/
-# Retrieving an entity (replace xxx with an existing entity id)
+# Retrieving a webhook (replace xxx with an existing webhook id)
 # -----------------------------------------------------------------------------------*/
 
 resource = ten99policy.Webhooks.retrieve("whe_H5YMitmVqb6jwNzCMzcAEu")
 
 # -----------------------------------------------------------------------------------*/
-# Delete an entity (replace xxx with an existing entity id)
+# Delete a webhook (replace xxx with an existing webhook id)
 # -----------------------------------------------------------------------------------*/
 
 resource = ten99policy.Webhooks.delete("whe_H5YMitmVqb6jwNzCMzcAEu")

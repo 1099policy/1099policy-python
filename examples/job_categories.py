@@ -4,7 +4,7 @@ import ten99policy
 # ten99policy.environment = 'sandbox'
 
 # -----------------------------------------------------------------------------------*/
-# Fetching the list of entities
+# Fetching the list of job categories
 # -----------------------------------------------------------------------------------*/
 
 resource = ten99policy.JobCategories.list()
