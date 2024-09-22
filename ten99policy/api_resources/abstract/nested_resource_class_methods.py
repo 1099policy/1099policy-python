@@ -39,7 +39,9 @@ def nested_resource_class_methods(
             **params
         ):
             requestor = api_requestor.APIRequestor(
-                api_key, api_version=ten99policy_version, environment=ten99policy_environment
+                api_key,
+                api_version=ten99policy_version,
+                environment=ten99policy_environment,
             )
             headers = util.populate_headers(idempotency_key)
             response, api_key = requestor.request(method, url, params, headers)
@@ -48,49 +50,35 @@ def nested_resource_class_methods(
             )
 
         resource_request_method = "%ss_request" % resource
-        setattr(
-            cls, resource_request_method, classmethod(nested_resource_request)
-        )
+        setattr(cls, resource_request_method, classmethod(nested_resource_request))
 
         for operation in operations:
             if operation == "create":
 
                 def create_nested_resource(cls, id, **params):
                     url = getattr(cls, resource_url_method)(id)
-                    return getattr(cls, resource_request_method)(
-                        "post", url, **params
-                    )
+                    return getattr(cls, resource_request_method)("post", url, **params)
 
                 create_method = "create_%s" % resource
-                setattr(
-                    cls, create_method, classmethod(create_nested_resource)
-                )
+                setattr(cls, create_method, classmethod(create_nested_resource))
 
             elif operation == "retrieve":
 
                 def retrieve_nested_resource(cls, id, nested_id, **params):
                     url = getattr(cls, resource_url_method)(id, nested_id)
-                    return getattr(cls, resource_request_method)(
-                        "get", url, **params
-                    )
+                    return getattr(cls, resource_request_method)("get", url, **params)
 
                 retrieve_method = "retrieve_%s" % resource
-                setattr(
-                    cls, retrieve_method, classmethod(retrieve_nested_resource)
-                )
+                setattr(cls, retrieve_method, classmethod(retrieve_nested_resource))
 
             elif operation == "update":
 
                 def modify_nested_resource(cls, id, nested_id, **params):
                     url = getattr(cls, resource_url_method)(id, nested_id)
-                    return getattr(cls, resource_request_method)(
-                        "post", url, **params
-                    )
+                    return getattr(cls, resource_request_method)("post", url, **params)
 
                 modify_method = "modify_%s" % resource
-                setattr(
-                    cls, modify_method, classmethod(modify_nested_resource)
-                )
+                setattr(cls, modify_method, classmethod(modify_nested_resource))
 
             elif operation == "delete":
 
@@ -101,17 +89,13 @@ def nested_resource_class_methods(
                     )
 
                 delete_method = "delete_%s" % resource
-                setattr(
-                    cls, delete_method, classmethod(delete_nested_resource)
-                )
+                setattr(cls, delete_method, classmethod(delete_nested_resource))
 
             elif operation == "list":
 
                 def list_nested_resources(cls, id, **params):
                     url = getattr(cls, resource_url_method)(id)
-                    return getattr(cls, resource_request_method)(
-                        "get", url, **params
-                    )
+                    return getattr(cls, resource_request_method)("get", url, **params)
 
                 list_method = "list_%s" % resource_plural
                 setattr(cls, list_method, classmethod(list_nested_resources))
