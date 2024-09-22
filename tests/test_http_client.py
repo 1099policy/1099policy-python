@@ -1,6 +1,6 @@
 import json
 import unittest
-from unittest.mock import patch, MagicMock, Mock
+from unittest.mock import patch
 from ten99policy.http_client import HTTPClient
 
 
@@ -38,3 +38,21 @@ class TestHTTPClient(unittest.TestCase):
         self.assertEqual(
             headers, {}
         )  # Assuming ConcreteHTTPClient returns an empty dict for headers
+
+    @patch("ten99policy.http_client.HTTPClient.request")
+    def test_get(self, mock_request):
+        mock_request.return_value = {"data": []}
+        client = HTTPClient()
+        response = client.request("get", "/test")
+        self.assertEqual(response, {"data": []})
+
+    @patch("ten99policy.http_client.HTTPClient.request")
+    def test_post(self, mock_request):
+        mock_request.return_value = {"data": []}
+        client = HTTPClient()
+        response = client.request("post", "/test", data={"key": "value"})
+        self.assertEqual(response, {"data": []})
+
+
+if __name__ == "__main__":
+    unittest.main()
