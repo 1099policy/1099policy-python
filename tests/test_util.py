@@ -18,13 +18,6 @@ from ten99policy.util import (
 )
 import os
 
-# Test with a Ten99PolicyResponse object
-from unittest.mock import Mock
-from ten99policy.ten99policy_response import Ten99PolicyResponse
-from ten99policy.ten99policy_object import (
-    Ten99PolicyObject,
-)  # Ensure the class is imported
-
 
 # Test with a Ten99PolicyResponse object
 class TestUtil(unittest.TestCase):
