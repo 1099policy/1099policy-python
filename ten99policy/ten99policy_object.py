@@ -6,7 +6,7 @@ from copy import deepcopy
 
 import ten99policy
 from ten99policy import api_requestor, util, six
-from collections import OrderedDict
+
 
 def _compute_diff(current, previous):
     if isinstance(current, dict):
@@ -102,8 +102,7 @@ class Ten99PolicyObject(dict):
             raise ValueError(
                 "You cannot set %s to an empty string. "
                 "We interpret empty strings as None in requests."
-                "You may set %s.%s = None to delete the property"
-                % (k, str(self), k)
+                "You may set %s.%s = None to delete the property" % (k, str(self), k)
             )
 
         # Allows for unpickling in Python 3.x
@@ -209,9 +208,7 @@ class Ten99PolicyObject(dict):
         self.ten99policy_environment = ten99policy_environment or getattr(
             values, "ten99policy_environment", None
         )
-        self._last_response = last_response or getattr(
-            values, "_last_response", None
-        )
+        self._last_response = last_response or getattr(values, "_last_response", None)
 
         # Wipe old state before setting new.  This is useful for e.g.
         # updating a customer, where there is no persistent card
@@ -312,9 +309,11 @@ class Ten99PolicyObject(dict):
                 return value
 
         return {
-            key: list(map(maybe_to_dict_recursive, value))
-            if isinstance(value, list)
-            else maybe_to_dict_recursive(value)
+            key: (
+                list(map(maybe_to_dict_recursive, value))
+                if isinstance(value, list)
+                else maybe_to_dict_recursive(value)
+            )
             for key, value in six.iteritems(dict(self))
         }
 
