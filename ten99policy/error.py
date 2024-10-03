@@ -276,6 +276,10 @@ class InvalidInvoiceIdError(Ten99PolicyError):
     pass
 
 
+class InvoiceUneditableAlreadyExistsError(Ten99PolicyError):
+    pass
+
+
 class MissingJobCategoryCodeError(Ten99PolicyError):
     pass
 
