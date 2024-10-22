@@ -284,7 +284,7 @@ class MissingJobCategoryCodeError(Ten99PolicyError):
     pass
 
 
-class InvalidJobCategoryIdError(Ten99PolicyError):
+class InvalidJobCategoryCodeError(Ten99PolicyError):
     pass
 
 
@@ -324,7 +324,7 @@ class MissingCertificateError(Ten99PolicyError):
     pass
 
 
-class NoCoverageRuleFoundError(Ten99PolicyError):
+class NoInsuranceRequirementFoundError(Ten99PolicyError):
     pass
 
 
