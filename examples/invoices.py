@@ -11,8 +11,8 @@ resource = ten99policy.Invoices.create(
     contractor="cn_ti8eXviE4A",
     job="jb_rajdrwMUKi",
     gross_pay=1000,
-    paycycle_startdate="2022-04-25T22:23:13+00:00",
-    paycycle_enddate="2022-04-28T22:23:13+00:00",
+    paycycle_startdate="1730476766",
+    paycycle_enddate="1730476766",
 )
 
 # # -----------------------------------------------------------------------------------*/
