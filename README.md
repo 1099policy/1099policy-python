@@ -2,8 +2,8 @@
 
 A Python library for interacting with the 1099Policy API.
 
-![Maintainability](https://api.codeclimate.com/v1/badges/d26e14fc7a2a1fb19467/maintainability)
-![Test Coverage](https://api.codeclimate.com/v1/badges/d26e14fc7a2a1fb19467/test_coverage)
+![Maintainability](https://api.codeclimate.com/v1/badges/25dc3b9db072fdfe552e/maintainability)
+![Test Coverage](https://api.codeclimate.com/v1/badges/25dc3b9db072fdfe552e/test_coverage)
 
 ## Overview
 
