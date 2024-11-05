@@ -10,7 +10,11 @@ class ListObject(Ten99PolicyObject):
     OBJECT_NAME = "list"
 
     def list(
-        self, api_key=None, ten99policy_version=None, ten99policy_environment=None, **params
+        self,
+        api_key=None,
+        ten99policy_version=None,
+        ten99policy_environment=None,
+        **params
     ):
         ten99policy_object = self._request(
             "get",
@@ -71,10 +75,14 @@ class ListObject(Ten99PolicyObject):
     ):
         api_key = api_key or self.api_key
         ten99policy_version = ten99policy_version or self.ten99policy_version
-        ten99policy_environment = ten99policy_environment or self.ten99policy_environment
+        ten99policy_environment = (
+            ten99policy_environment or self.ten99policy_environment
+        )
 
         requestor = api_requestor.APIRequestor(
-            api_key, api_version=ten99policy_version, environment=ten99policy_environment
+            api_key,
+            api_version=ten99policy_version,
+            environment=ten99policy_environment,
         )
         headers = util.populate_headers(idempotency_key)
         response, api_key = requestor.request(method_, url_, params, headers)
@@ -139,7 +147,11 @@ class ListObject(Ten99PolicyObject):
         return not self.data
 
     def next_page(
-        self, api_key=None, ten99policy_version=None, ten99policy_environment=None, **params
+        self,
+        api_key=None,
+        ten99policy_version=None,
+        ten99policy_environment=None,
+        **params
     ):
         if not self.has_more:
             return self.empty_list(
@@ -162,7 +174,11 @@ class ListObject(Ten99PolicyObject):
         )
 
     def previous_page(
-        self, api_key=None, ten99policy_version=None, **params
+        self,
+        api_key=None,
+        ten99policy_version=None,
+        ten99policy_environment=None,
+        **params
     ):
         if not self.has_more:
             return self.empty_list(
