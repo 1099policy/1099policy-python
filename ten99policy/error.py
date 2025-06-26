@@ -105,7 +105,7 @@ class APIConnectionError(Ten99PolicyError):
 
 class Ten99PolicyErrorWithParamCode(Ten99PolicyError):
     def __repr__(self):
-        return "%s(message=%r, param=%r, code=%r, http_status=%r, " "request_id=%r)" % (
+        return "%s(message=%r, param=%r, code=%r, http_status=%r, request_id=%r)" % (
             self.__class__.__name__,
             self._message,
             self.param,
@@ -333,4 +333,8 @@ class InvalidMimeTypeError(Ten99PolicyError):
 
 
 class InvalidFileSizeError(Ten99PolicyError):
+    pass
+
+
+class ContractorBlockedForWritesError(Ten99PolicyError):
     pass
