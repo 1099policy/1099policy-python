@@ -43,21 +43,9 @@ jobs:
         coverage report -m
         coverage xml
 
-    - name: Upload coverage to Code Climate
-      uses: paambaati/codeclimate-action@v8.0.0
-      if: matrix.python-version == '3.12'
-      env:
-        CC_TEST_REPORTER_ID: 3ba36325cf3a32e670ec61482f3406ab898db129ea51fe9e87498657c2357139
-      with:
-        coverageLocations: coverage.xml:coverage.py
-
     - name: Upload coverage report
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report-${{ matrix.python-version }}
         path: coverage.xml
-
-    - name: Display coverage report
-      if: always()
-      run: echo "Coverage report uploaded to Code Climate and available in artifacts."
