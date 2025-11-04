@@ -43,13 +43,14 @@ jobs:
         coverage report -m
         coverage xml
 
-    - name: Upload coverage to Code Climate
-      uses: paambaati/codeclimate-action@v9.0.0
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
       if: matrix.python-version == '3.12'
-      env:
-        CC_TEST_REPORTER_ID: 3ba36325cf3a32e670ec61482f3406ab898db129ea51fe9e87498657c2357139
       with:
-        coverageLocations: coverage.xml:coverage.py
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
 
     - name: Upload coverage report
       if: always()
