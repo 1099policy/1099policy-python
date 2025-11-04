@@ -2,8 +2,9 @@
 
 A Python library for interacting with the 1099Policy API.
 
+[![Python Tests](https://github.com/1099policy/1099policy-python/actions/workflows/python-tests.yml/badge.svg)](https://github.com/1099policy/1099policy-python/actions/workflows/python-tests.yml)
+[![codecov](https://codecov.io/gh/1099policy/1099policy-python/branch/master/graph/badge.svg)](https://codecov.io/gh/1099policy/1099policy-python)
 ![Maintainability](https://api.codeclimate.com/v1/badges/25dc3b9db072fdfe552e/maintainability)
-![Test Coverage](https://api.codeclimate.com/v1/badges/25dc3b9db072fdfe552e/test_coverage)
 
 ## Overview
 
