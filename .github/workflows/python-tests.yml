@@ -36,14 +36,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install coverage setuptools
         pip install -r requirements.txt
-      working-directory: ./1099policy-python
 
     - name: Run tests with coverage
       run: |
         coverage run -m unittest discover tests
         coverage report -m
         coverage xml
-      working-directory: ./1099policy-python
 
     - name: Upload coverage to Code Climate
       uses: paambaati/codeclimate-action@v8.0.0
@@ -51,14 +49,14 @@ jobs:
       env:
         CC_TEST_REPORTER_ID: 3ba36325cf3a32e670ec61482f3406ab898db129ea51fe9e87498657c2357139
       with:
-        coverageLocations: 1099policy-python/coverage.xml:coverage.py
+        coverageLocations: coverage.xml:coverage.py
 
     - name: Upload coverage report
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report-${{ matrix.python-version }}
-        path: 1099policy-python/coverage.xml
+        path: coverage.xml
 
     - name: Display coverage report
       if: always()
