@@ -10,11 +10,15 @@ version_contents = {}
 with open(os.path.join(here, "ten99policy", "version.py"), encoding="utf-8") as f:
     exec(f.read(), version_contents)
 
+with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
+    long_description = f.read()
+
 setup(
     name="ten99policy",
     version=version_contents["VERSION"],
     description="Python bindings for the ten99policy API",
-    long_description_content_type="text/x-rst",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     author="Ray Ventura",
     author_email="support@1099policy.com",
     url="https://github.com/1099policy/1099policy-client-python",

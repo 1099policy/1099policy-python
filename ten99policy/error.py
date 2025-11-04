@@ -300,7 +300,7 @@ class CustomApplicationsDisabledError(Ten99PolicyError):
     pass
 
 
-class ContractHasMatchingPolicyError(Ten99PolicyError):
+class ContractorHasMatchingPolicyError(Ten99PolicyError):
     pass
 
 
