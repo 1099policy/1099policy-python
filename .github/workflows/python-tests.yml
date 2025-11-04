@@ -44,7 +44,8 @@ jobs:
         coverage xml
 
     - name: Upload coverage to Code Climate
-      uses: paambaati/codeclimate-action@v5.0.0
+      uses: paambaati/codeclimate-action@v8.0.0
+      if: matrix.python-version == '3.12'
       env:
         CC_TEST_REPORTER_ID: 3ba36325cf3a32e670ec61482f3406ab898db129ea51fe9e87498657c2357139
       with:
