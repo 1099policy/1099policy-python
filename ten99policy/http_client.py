@@ -8,14 +8,15 @@ import time
 import random
 import threading
 
-from ten99policy import error, util, six
+import six
+from ten99policy import error, util
 
 # - Requests is the preferred HTTP library
 # - Google App Engine has urlfetch
 # - Use Pycurl if it's there (at least it verifies SSL certs)
 # - Fall back to urllib2 with a warning if needed
 try:
-    from ten99policy.six.moves import urllib
+    from six.moves import urllib
 except ImportError:
     # Try to load in urllib2, but don't sweat it if it's not available.
     pass
@@ -57,7 +58,7 @@ except ImportError:
     urlfetch = None
 
 # proxy support for the pycurl client
-from ten99policy.six.moves.urllib.parse import urlparse
+from six.moves.urllib.parse import urlparse
 
 
 def _now_ms():

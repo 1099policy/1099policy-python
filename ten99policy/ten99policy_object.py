@@ -5,7 +5,8 @@ import json
 from copy import deepcopy
 
 import ten99policy
-from ten99policy import api_requestor, util, six
+import six
+from ten99policy import api_requestor, util
 
 
 def _compute_diff(current, previous):

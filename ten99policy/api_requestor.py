@@ -11,9 +11,10 @@ import urllib.parse
 from collections import OrderedDict
 
 import ten99policy
-from ten99policy import error, http_client, version, util, six
+import six
+from ten99policy import error, http_client, version, util
 from ten99policy.multipart_data_generator import MultipartDataGenerator
-from ten99policy.six.moves.urllib.parse import urlsplit, urlunsplit
+from six.moves.urllib.parse import urlsplit, urlunsplit
 from ten99policy.ten99policy_response import (
     Ten99PolicyResponse,
     Ten99PolicyStreamResponse,

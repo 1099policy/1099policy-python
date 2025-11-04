@@ -9,8 +9,8 @@ import os
 import re
 
 import ten99policy
-from ten99policy import six
-from ten99policy.six.moves.urllib.parse import parse_qsl
+import six
+from six.moves.urllib.parse import parse_qsl
 
 
 TEN99POLICY_LOG = os.environ.get("TEN99POLICY_LOG")
