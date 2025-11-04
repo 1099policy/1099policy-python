@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
 from ten99policy import util
-from ten99policy.six.moves.urllib.parse import quote_plus
+from six.moves.urllib.parse import quote_plus
 
 
 def custom_method(name, http_verb, http_path=None, is_streaming=False):

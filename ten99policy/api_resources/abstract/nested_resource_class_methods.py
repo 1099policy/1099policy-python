@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
 from ten99policy import api_requestor, util
-from ten99policy.six.moves.urllib.parse import quote_plus
+from six.moves.urllib.parse import quote_plus
 
 
 def nested_resource_class_methods(

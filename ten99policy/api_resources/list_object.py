@@ -1,9 +1,9 @@
 from __future__ import absolute_import, division, print_function
 
-from ten99policy import api_requestor, six, util
+import six
+from ten99policy import api_requestor, util
 from ten99policy.ten99policy_object import Ten99PolicyObject
-
-from ten99policy.six.moves.urllib.parse import quote_plus
+from six.moves.urllib.parse import quote_plus
 
 
 class ListObject(Ten99PolicyObject):
