@@ -44,6 +44,8 @@ jobs:
 
     - name: Run Code Climate before-build
       run: ./cc-test-reporter before-build
+      env:
+        CC_TEST_REPORTER_ID: 3ba36325cf3a32e670ec61482f3406ab898db129ea51fe9e87498657c2357139
 
     - name: Run tests with coverage
       run: |
@@ -51,10 +53,17 @@ jobs:
         coverage report -m
         coverage xml
 
+    - name: Upload coverage to Code Climate
+      run: |
+        ./cc-test-reporter format-coverage -t coverage.py coverage.xml
+        ./cc-test-reporter upload-coverage
+      env:
+        CC_TEST_REPORTER_ID: 3ba36325cf3a32e670ec61482f3406ab898db129ea51fe9e87498657c2357139
+
     - name: Run Code Climate after-build
       run: ./cc-test-reporter after-build --exit-code $?
       env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        CC_TEST_REPORTER_ID: 3ba36325cf3a32e670ec61482f3406ab898db129ea51fe9e87498657c2357139
 
     - name: Upload coverage report
       if: always()
