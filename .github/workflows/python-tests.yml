@@ -43,15 +43,6 @@ jobs:
         coverage report -m
         coverage xml
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      if: matrix.python-version == '3.12'
-      with:
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: false
-
     - name: Upload coverage report
       if: always()
       uses: actions/upload-artifact@v4

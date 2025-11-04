@@ -3,7 +3,8 @@
 A Python library for interacting with the 1099Policy API.
 
 [![Python Tests](https://github.com/1099policy/1099policy-python/actions/workflows/python-tests.yml/badge.svg)](https://github.com/1099policy/1099policy-python/actions/workflows/python-tests.yml)
-[![codecov](https://codecov.io/gh/1099policy/1099policy-python/branch/master/graph/badge.svg)](https://codecov.io/gh/1099policy/1099policy-python)
+[![PyPI version](https://badge.fury.io/py/ten99policy.svg)](https://badge.fury.io/py/ten99policy)
+[![Python Versions](https://img.shields.io/pypi/pyversions/ten99policy.svg)](https://pypi.org/project/ten99policy/)
 
 ## Overview
 
