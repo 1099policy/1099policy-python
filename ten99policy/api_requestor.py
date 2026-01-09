@@ -306,6 +306,24 @@ class APIRequestor(object):
                 rheaders,
             )
         if self._should_handle_code_as_error(rcode):
+            # Special handling for "No matching policy found for assignment" error
+            # instead of raising an exception, return a response with eligible.result = false
+            if (
+                resp.data
+                and isinstance(resp.data, dict)
+                and resp.data.get("message") == "No matching policy found for assignment."
+            ):
+                resp.data = {
+                    "eligible": {
+                        "result": False,
+                        "message": "No matching policy found for assignment.",
+                        "approval_reason": None,
+                    }
+                }
+                # Reset code to 200 so it's not handled as an error anymore
+                resp.code = 200
+                return resp
+
             self.handle_error_response(rbody, rcode, resp.data, rheaders)
         return resp
 
