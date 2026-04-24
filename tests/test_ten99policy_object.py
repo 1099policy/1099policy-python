@@ -139,6 +139,41 @@ class TestTen99PolicyObject(unittest.TestCase):
         obj = Ten99PolicyObject.construct_from(values, "sk_test_123")
         self.assertEqual(obj["key"], {"nested": "value"})
 
+    def test_stringified_dict_with_none(self):
+        # Regression: API PR #2270 writes residence_address with line2=None,
+        # so quote_json arrives as a str(dict) containing bare `None`.
+        # The old json.loads+quote-swap heuristic raised and left the value
+        # as a raw string; ast.literal_eval handles it.
+        values = {
+            "quote_json": "{'line1': '123 Main', 'line2': None, 'line3': None}"
+        }
+        obj = Ten99PolicyObject.construct_from(values, "sk_test_123")
+        self.assertEqual(obj["quote_json"]["line1"], "123 Main")
+        self.assertIsNone(obj["quote_json"]["line2"])
+        self.assertIsNone(obj["quote_json"]["line3"])
+
+    def test_stringified_dict_with_apostrophe(self):
+        # The old heuristic blindly swapped ' -> ", mangling apostrophes
+        # inside string values. ast.literal_eval parses them correctly.
+        values = {"quote_json": "{'line1': \"O'Brien St\"}"}
+        obj = Ten99PolicyObject.construct_from(values, "sk_test_123")
+        self.assertEqual(obj["quote_json"]["line1"], "O'Brien St")
+
+    def test_plain_string_id_not_coerced(self):
+        # Scalar-looking strings (e.g. public ids) must remain strings.
+        values = {"id": "qt_abc123", "name": "Acme"}
+        obj = Ten99PolicyObject.construct_from(values, "sk_test_123")
+        self.assertEqual(obj["id"], "qt_abc123")
+        self.assertEqual(obj["name"], "Acme")
+
+    def test_already_dict_value_unchanged(self):
+        # If the API ever sends a real dict (post-migration off fields.String),
+        # construct_from must not touch it.
+        values = {"quote_json": {"line1": "123 Main", "line2": None}}
+        obj = Ten99PolicyObject.construct_from(values, "sk_test_123")
+        self.assertEqual(obj["quote_json"]["line1"], "123 Main")
+        self.assertIsNone(obj["quote_json"]["line2"])
+
     def test_copy(self):
         self.obj["copy_me"] = "value"
         copied = self.obj.__copy__()

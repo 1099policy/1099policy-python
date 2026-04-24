@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division, print_function
 
+import ast
 import datetime
 import json
 from copy import deepcopy
@@ -168,14 +169,17 @@ class Ten99PolicyObject(dict):
         ten99policy_environment=None,
         last_response=None,
     ):
-        # Deserialize any stringified JSON values
+        # The API marshals some fields (e.g. quote_json) via str(dict),
+        # so use ast.literal_eval -- it's the inverse of repr and handles
+        # None/True/False and strings containing apostrophes.
         for k, v in values.items():
             if isinstance(v, str):
                 try:
-                    # Replace single quotes with double quotes and parse the JSON string
-                    values[k] = json.loads(v.replace("'", '"'))
-                except json.JSONDecodeError:
-                    pass  # Keep the original string if it can't be parsed
+                    parsed = ast.literal_eval(v)
+                except (ValueError, SyntaxError):
+                    continue
+                if isinstance(parsed, (dict, list)):
+                    values[k] = parsed
 
         instance = cls(
             values.get("id"),
