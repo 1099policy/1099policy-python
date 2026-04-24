@@ -169,17 +169,22 @@ class Ten99PolicyObject(dict):
         ten99policy_environment=None,
         last_response=None,
     ):
-        # The API marshals some fields (e.g. quote_json) via str(dict),
-        # so use ast.literal_eval -- it's the inverse of repr and handles
-        # None/True/False and strings containing apostrophes.
+        # API fields are inconsistent: some marshal dicts as valid JSON, some
+        # as Python repr (str(dict)). Try JSON first for new-style payloads,
+        # then ast.literal_eval as the inverse of repr for old-style payloads
+        # (handles None/True/False and strings with apostrophes).
         for k, v in values.items():
-            if isinstance(v, str):
+            if not isinstance(v, str):
+                continue
+            try:
+                parsed = json.loads(v)
+            except (ValueError, TypeError):
                 try:
                     parsed = ast.literal_eval(v)
                 except (ValueError, SyntaxError):
                     continue
-                if isinstance(parsed, (dict, list)):
-                    values[k] = parsed
+            if isinstance(parsed, (dict, list)):
+                values[k] = parsed
 
         instance = cls(
             values.get("id"),

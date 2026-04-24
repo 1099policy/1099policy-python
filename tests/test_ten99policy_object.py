@@ -174,6 +174,35 @@ class TestTen99PolicyObject(unittest.TestCase):
         self.assertEqual(obj["quote_json"]["line1"], "123 Main")
         self.assertIsNone(obj["quote_json"]["line2"])
 
+    def test_new_wire_json_with_null(self):
+        # Regression: once the API migrates to JsonString, quote_json arrives
+        # as valid JSON. ast.literal_eval rejects `null`, so the SDK has to
+        # try json.loads first.
+        values = {"quote_json": '{"line1": "123 Main", "line2": null}'}
+        obj = Ten99PolicyObject.construct_from(values, "sk_test_123")
+        self.assertEqual(obj["quote_json"]["line1"], "123 Main")
+        self.assertIsNone(obj["quote_json"]["line2"])
+
+    def test_new_wire_json_with_apostrophe(self):
+        # Valid JSON with an apostrophe inside a double-quoted string.
+        values = {"quote_json": '{"line1": "O\'Brien St"}'}
+        obj = Ten99PolicyObject.construct_from(values, "sk_test_123")
+        self.assertEqual(obj["quote_json"]["line1"], "O'Brien St")
+
+    def test_scalar_literal_string_not_coerced(self):
+        # json.loads("true") returns a bool; the isinstance(parsed, (dict, list))
+        # guard must prevent the string being silently coerced.
+        values = {"flag": "true", "count": "42"}
+        obj = Ten99PolicyObject.construct_from(values, "sk_test_123")
+        self.assertEqual(obj["flag"], "true")
+        self.assertEqual(obj["count"], "42")
+
+    def test_none_value_unchanged(self):
+        # Null wire: isinstance(v, str) is False, so the parse loop skips it.
+        values = {"quote_json": None}
+        obj = Ten99PolicyObject.construct_from(values, "sk_test_123")
+        self.assertIsNone(obj["quote_json"])
+
     def test_copy(self):
         self.obj["copy_me"] = "value"
         copied = self.obj.__copy__()
