@@ -103,6 +103,41 @@ class TestHTTPClientBase(unittest.TestCase):
         self.assertEqual(result, (b'{"success": true}', 200, {}))
         self.assertEqual(self.client.request.call_count, 2)
 
+    @patch("ten99policy.http_client.util.log_info")
+    @patch("ten99policy.http_client.time.sleep", return_value=None)
+    def test_retryable_connection_error_retries_and_logs(
+        self, mock_sleep, mock_log_info
+    ):
+        # Reproduces the production AttributeError where the retry-logging
+        # branch accessed `connection_error.user_message` (a Stripe-era
+        # attribute that no longer exists), masking the original retryable
+        # error and aborting the request on the first attempt.
+        self.client._max_network_retries = mock.Mock(return_value=3)
+        retryable_error = error.APIConnectionError(
+            "Connection aborted.", should_retry=True
+        )
+        self.client.request = mock.Mock(
+            side_effect=[
+                retryable_error,  # First attempt: transient network blip
+                (b'{"success": true}', 200, {}),  # Retry succeeds
+            ]
+        )
+
+        result = self.client.request_with_retries("GET", "http://example.com", {})
+
+        self.assertEqual(result, (b'{"success": true}', 200, {}))
+        self.assertEqual(self.client.request.call_count, 2)
+        # The retryable error should have been logged without raising.
+        mock_log_info.assert_any_call(
+            "Encountered a retryable error %s" % str(retryable_error)
+        )
+
+    def test_api_connection_error_exposes_user_message_alias(self):
+        # Backwards-compatible Stripe-style alias for `message`.
+        err = error.APIConnectionError("boom", should_retry=True)
+        self.assertEqual(err.user_message, "boom")
+        self.assertEqual(err.user_message, err.message)
+
     def test_sleep_time_seconds_exponential_backoff(self):
         with patch(
             "ten99policy.http_client.HTTPClient._retry_after_header", return_value=None

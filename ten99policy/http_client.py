@@ -143,7 +143,7 @@ class HTTPClient(object):
                 if connection_error:
                     util.log_info(
                         "Encountered a retryable error %s"
-                        % connection_error.user_message
+                        % str(connection_error)
                     )
                 num_retries += 1
                 sleep_time = self._sleep_time_seconds(num_retries, response)
