@@ -61,6 +61,15 @@ class Ten99PolicyError(Exception):
     def message(self):
         return self._message
 
+    # Backwards-compatible alias for `message`. The upstream Stripe SDK this
+    # library was forked from exposed the error text as `user_message`; this
+    # fork renamed it to `message`. Keep `user_message` working so external
+    # consumers (and any remaining fork leftovers) that rely on the
+    # Stripe-style attribute don't break.
+    @property
+    def user_message(self):
+        return self._message
+
     def __repr__(self):
         return "%s(message=%r, http_status=%r, request_id=%r)" % (
             self.__class__.__name__,
