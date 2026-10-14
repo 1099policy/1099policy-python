@@ -4,7 +4,11 @@ from __future__ import absolute_import, division, print_function
 
 client_id = None
 api_base = "https://api.1099policy.com"
-api_key = 't9sk_test_f189230e-1175-40cc-b71f-30022fb1005b'
+# No default key. Every release up to 1.1.12 shipped a real sandbox key
+# here, so anyone who installed the package and never set their own was
+# authenticating as that organization. Set `ten99policy.api_key` yourself;
+# a request made without one raises AuthenticationError with the hint.
+api_key = None
 api_version = None
 verify_ssl_certs = False
 proxy = None
